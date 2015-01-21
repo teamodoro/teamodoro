@@ -45,7 +45,6 @@ $(document).ready(function()
 	var date = new Date(1000*time);
 	var minutes;
 	var seconds;
-	var nameType;
 	var periodDiv = $('.period');
 
 	// Получаем данные
