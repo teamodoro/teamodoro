@@ -91,6 +91,10 @@ $(document).ready(function()
 		seconds = ((seconds < 10) ? "0" : "") + seconds; //Если меньше 10 сепкунд, то добавляем нулик
 		// Выводим
 		timeDiv.html(minutes + ":" + seconds);
+
+		if ( minutes === 0 && seconds === 0 ) {
+			document.getElementById("endTimer").play();
+		}
 	}
 
 	// таймер на запрос
