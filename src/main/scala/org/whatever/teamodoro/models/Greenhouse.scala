@@ -8,10 +8,10 @@ import scala.concurrent.duration._
 
 object State extends Enumeration {
   type State = Value
-  val Paused = Value("Paused")
-  val Running = Value("Running")
-  val ShortBreak = Value("ShortBreak")
-  val LongBreak = Value("LongBreak")
+  val Paused = Value("paused")
+  val Running = Value("running")
+  val ShortBreak = Value("shortBreak")
+  val LongBreak = Value("longBreak")
 }
 
 import org.whatever.teamodoro.models.State._
@@ -49,9 +49,9 @@ case class Greenhouse(name: String,
   }
 
   def stopAt: Long = this.state match {
-    case State.Running => this.options.pomodoroDuration
-    case State.ShortBreak => this.options.shortBreakDuration
-    case State.LongBreak => this.options.longBreakDuration
+    case State.Running => this.options.longBreak.duration
+    case State.ShortBreak => this.options.shortBreak.duration
+    case State.LongBreak => this.options.longBreak.duration
     case _ => Long.MaxValue
   }
 

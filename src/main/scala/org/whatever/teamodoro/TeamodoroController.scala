@@ -17,12 +17,12 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
   var greenhouse: Greenhouse = Greenhouse(
     "test",
     GreenhouseOptions(
-      (1 minutes).toSeconds,
-      (1 minutes).toSeconds,
-      (15 minutes).toSeconds
+      DurationOptions((25 minutes).toSeconds, "white"),
+      DurationOptions((5 minutes).toSeconds, "green"),
+      DurationOptions((15 minutes).toSeconds, "yellow")
     ),
     List(),
-    State.Paused,
+    State.Running,
     System.currentTimeMillis(),
     0
   )
