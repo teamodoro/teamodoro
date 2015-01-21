@@ -24,8 +24,23 @@ object GreenhouseSerializer {
   )
 }
 
+object Greenhouse {
+
+  def withName(name: String): Greenhouse =
+    Greenhouse(
+      name,
+      Options.default,
+      State.Running,
+      List(),
+      4,
+      System.currentTimeMillis(),
+      0
+    )
+}
+
+
 case class Greenhouse(name: String,
-                      options: GreenhouseOptions,
+                      options: Options,
                       state: State,
                       participants: List[Participant],
                       timesBeforeLongBreak: Int,
@@ -91,7 +106,7 @@ case class Greenhouse(name: String,
   )
 
   def addParticipant(participant: Participant): Greenhouse = this.copy(
-      participants = participant :: participants
+    participants = participant :: participants
   )
 }
 

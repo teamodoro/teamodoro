@@ -14,20 +14,7 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
 
   protected implicit val jsonFormats: Formats = DefaultFormats + GreenhouseSerializer.serializer
 
-  var greenhouse: Greenhouse = Greenhouse(
-    "test",
-    GreenhouseOptions(
-      DurationOptions((25 minutes).toSeconds, "white"),
-      DurationOptions((5 minutes).toSeconds, "green"),
-      DurationOptions((15 minutes).toSeconds, "yellow"),
-      4
-    ),
-    State.Running,
-    List(),
-    4,
-    System.currentTimeMillis(),
-    0
-  )
+  var greenhouse: Greenhouse = Greenhouse.withName("test")
 
   def replaceGreenhouse(newGreenhouse: Greenhouse) = greenhouse.synchronized {
     greenhouse = newGreenhouse

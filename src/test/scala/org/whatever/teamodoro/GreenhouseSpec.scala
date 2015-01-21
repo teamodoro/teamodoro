@@ -11,20 +11,7 @@ import scala.concurrent.duration._
 
 class GreenhouseSpec extends FlatSpec with Matchers {
 
-  val greenhouse = Greenhouse(
-    "test",
-    GreenhouseOptions(
-      DurationOptions((25 minutes).toSeconds, "white"),
-      DurationOptions((5 minutes).toSeconds, "green"),
-      DurationOptions((15 minutes).toSeconds, "yellow"),
-      4
-    ),
-    State.Running,
-    List(),
-    4,
-    System.currentTimeMillis(),
-    0
-  )
+  val greenhouse = Greenhouse.withName("test")
 
   "Greenhouse" should "be created properly" in {
     greenhouse.name should equal("test")
