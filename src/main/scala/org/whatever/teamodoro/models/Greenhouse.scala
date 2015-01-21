@@ -18,10 +18,12 @@ import org.whatever.teamodoro.models.State._
 
 case class Greenhouse(name: String,
                       options: GreenhouseOptions,
-                      participants: List[Participant],
                       state: State,
+                      timesBeforeLongBreak: Int,
                       startTime: Long,
                       currentTime: Long) {
+
+  var participants: List[Participant] = List()
 
   def tick(): Greenhouse = {
     val updated = incrementTimer()
@@ -36,8 +38,16 @@ case class Greenhouse(name: String,
 
   def catchUp: Greenhouse = {
     val overdue = this.currentTime - stopAt
+
+    val tillLongBreak = this.state match {
+      case State.Running => timesBeforeLongBreak - 1
+      case _ if timesBeforeLongBreak <= 0 => options.longBreakEvery
+      case _ => timesBeforeLongBreak
+    }
+
     val next = this.copy(
       state = nextState(),
+      timesBeforeLongBreak = tillLongBreak,
       startTime = System.currentTimeMillis() - (overdue seconds).toMillis,
       currentTime = overdue
     )
@@ -56,6 +66,7 @@ case class Greenhouse(name: String,
   }
 
   def nextState(): State = this.state match {
+    case State.Running if timesBeforeLongBreak <= 1 => State.LongBreak
     case State.Running => State.ShortBreak
     case State.ShortBreak => State.Running
     case State.Paused => State.Running
@@ -72,9 +83,11 @@ case class Greenhouse(name: String,
     startTime = System.currentTimeMillis()
   )
 
-  def addParticipant(participant: Participant): Greenhouse = this.copy(
-    participants = participant :: this.participants
-  ) tick()
+  def addParticipant(participant: Participant): Greenhouse = {
+    val gh = this.copy()
+    gh.participants = participant :: this.participants
+    gh.tick()
+  }
 }
 
 

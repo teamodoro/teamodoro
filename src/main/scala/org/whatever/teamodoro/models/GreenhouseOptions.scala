@@ -10,4 +10,5 @@ case class DurationOptions(duration: Long, color: String)
 
 case class GreenhouseOptions(running: DurationOptions,
                              shortBreak: DurationOptions,
-                             longBreak: DurationOptions);
+                             longBreak: DurationOptions,
+                             longBreakEvery: Int);

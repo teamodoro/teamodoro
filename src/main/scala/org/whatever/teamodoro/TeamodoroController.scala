@@ -17,12 +17,13 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
   var greenhouse: Greenhouse = Greenhouse(
     "test",
     GreenhouseOptions(
-      DurationOptions((25 minutes).toSeconds, "white"),
-      DurationOptions((5 minutes).toSeconds, "green"),
-      DurationOptions((15 minutes).toSeconds, "yellow")
+      DurationOptions((25 seconds).toSeconds, "white"),
+      DurationOptions((10 seconds).toSeconds, "green"),
+      DurationOptions((15 minutes).toSeconds, "yellow"),
+      4
     ),
-    List(),
     State.Running,
+    4,
     System.currentTimeMillis(),
     0
   )
@@ -41,13 +42,14 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
     greenhouse
   }
 
+  get("/api/current/participants") {
+    contentType = formats("json")
+    greenhouse.participants
+  }
+
   get("/api/start") {
     replaceGreenhouse(greenhouse.start())
     redirect("/")
   }
-
-  get("/api/join/:name") {
-    replaceGreenhouse(greenhouse.addParticipant(Participant(0, params("name"))))
-    redirect("/")
-  }
 }
+
