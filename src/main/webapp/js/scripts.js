@@ -41,15 +41,36 @@ $(document).ready(function()
 
 	/* TIMER */
 	var timeDiv = $('.time');
-	var time = 1460;
+	var time = 1500;
 	var date = new Date(1000*time);
 	var minutes;
 	var seconds;
+	var nameType;
+	var periodDiv = $('.period');
 
-	setInterval(function() {
+	// Получаем данные
+	var apiJSON;
+	function startGet(){
+		console.log("Get api json");
+		$.getJSON('/api/current', function(data) {
+				apiJSON = data;
+				refreshConst();
+			}
+		);
+	};
+	startGet();
 
-		// Вычитаем 1 секундэ
-		time -= 1;
+	function refreshConst() {
+		var periodName = apiJSON.state.name; // имя периода
+		periodDiv.html(periodName); // пишем название периода
+		periodDiv.removeClass('green white yellow'); // убираем все возможные цвета
+		periodDiv.addClass(apiJSON.options[periodName].color) // добавляем цвет
+		time = apiJSON.options[periodName].duration - apiJSON.currentTime; // считаем время
+		nullTime();
+	}
+
+	// Добавление нулей для времени
+	function nullTime() {
 		date = new Date(1000*time);
 		// Получаем минуты
 		minutes = date.getMinutes();
@@ -59,6 +80,19 @@ $(document).ready(function()
 		seconds = ((seconds < 10) ? "0" : "") + seconds; //Если меньше 10 сепкунд, то добавляем нулик
 		// Выводим
 		timeDiv.html(minutes + ":" + seconds);
+	}
+
+	// таймер на запрос
+	setInterval(function(){
+		startGet();
+	}, 5000);
+
+	// таймер с временем
+	setInterval(function() {
+
+		// Вычитаем 1 секундэ
+		time -= 1;
+		nullTime();
 
 	}, 1000);
 

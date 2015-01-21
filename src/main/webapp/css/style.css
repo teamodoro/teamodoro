@@ -228,14 +228,16 @@ body, html {
 	}
 	.modal_activity.active .section {
 		-webkit-filter: blur(30px); 
+		-moz-filter: blur(30px); 
 	}
 
 
 .period {
 	text-shadow: 0 3px 5px rgba(0,0,0,.3);
+	text-transform: capitalize;
 }
 
-.period.red {
+.period.white {
 	color: #a51d1d;
 }
 .period.green {
