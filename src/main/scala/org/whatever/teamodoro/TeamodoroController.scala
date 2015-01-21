@@ -3,7 +3,7 @@ package org.whatever.teamodoro
 import java.awt.Color
 
 import org.scalatra._
-import org.json4s.{DefaultFormats, Formats}
+import org.json4s.{FieldSerializer, DefaultFormats, Formats}
 import org.scalatra.json._
 import org.whatever.teamodoro.models._
 import scalate.ScalateSupport
@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 
 class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
 
-  protected implicit val jsonFormats: Formats = DefaultFormats
+  protected implicit val jsonFormats: Formats = DefaultFormats + GreenhouseSerializer.serializer
 
   var greenhouse: Greenhouse = Greenhouse(
     "test",
@@ -23,6 +23,7 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
       4
     ),
     State.Running,
+    List(),
     4,
     System.currentTimeMillis(),
     0

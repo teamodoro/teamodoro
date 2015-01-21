@@ -30,7 +30,8 @@ object TeamodoroBuild extends Build {
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,
-        "org.json4s"   %% "json4s-jackson" % "3.2.11"
+        "org.json4s"   %% "json4s-jackson" % "3.2.11",
+        "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(

@@ -1,5 +1,7 @@
 package org.whatever.teamodoro.models
 
+import org.json4s.{FieldSerializer, DefaultFormats, Formats}
+
 import scala.concurrent.duration._
 
 /**
@@ -16,14 +18,19 @@ object State extends Enumeration {
 
 import org.whatever.teamodoro.models.State._
 
+object GreenhouseSerializer {
+  val serializer = FieldSerializer[Greenhouse](
+    FieldSerializer.ignore("participants")
+  )
+}
+
 case class Greenhouse(name: String,
                       options: GreenhouseOptions,
                       state: State,
+                      participants: List[Participant],
                       timesBeforeLongBreak: Int,
                       startTime: Long,
                       currentTime: Long) {
-
-  var participants: List[Participant] = List()
 
   def tick(): Greenhouse = {
     val updated = incrementTimer()
@@ -83,11 +90,9 @@ case class Greenhouse(name: String,
     startTime = System.currentTimeMillis()
   )
 
-  def addParticipant(participant: Participant): Greenhouse = {
-    val gh = this.copy()
-    gh.participants = participant :: this.participants
-    gh.tick()
-  }
+  def addParticipant(participant: Participant): Greenhouse = this.copy(
+      participants = participant :: participants
+  )
 }
 
 
