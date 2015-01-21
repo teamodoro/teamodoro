@@ -6,7 +6,6 @@ import scala.concurrent.duration._
  * Created by nsa, 19/01/15 
  */
 
-
 object State extends Enumeration {
   type State = Value
   val Paused = Value("Paused")
@@ -21,33 +20,38 @@ case class Greenhouse(name: String,
                       options: GreenhouseOptions,
                       participants: List[Participant],
                       state: State,
+                      startTime: Long,
                       currentTime: Long) {
 
-  var startTime: Long = System.currentTimeMillis()
-
   def tick(): Greenhouse = {
-
     val updated = incrementTimer()
-
-    if (updated.currentTime >= stopAt()) {
-      return Greenhouse(
-        this.name,
-        this.options,
-        this.participants,
-        nextState(),
-        updated.currentTime - stopAt()
-      )
-    }
-
     this.state match {
       case State.Paused => this
+      case _ if updated.isOutdated => updated.catchUp
       case _ => updated
     }
   }
 
-  def stopAt(): Long = this.state match {
+  def isOutdated: Boolean = this.currentTime >= stopAt
+
+  def catchUp: Greenhouse = {
+    val overdue = this.currentTime - stopAt
+    val next = this.copy(
+      state = nextState(),
+      startTime = System.currentTimeMillis() - (overdue seconds).toMillis,
+      currentTime = overdue
+    )
+
+    if (next.isOutdated) {
+      return next.catchUp
+    }
+    next
+  }
+
+  def stopAt: Long = this.state match {
     case State.Running => (this.options.pomodoroDuration minutes) toSeconds
     case State.ShortBreak => (this.options.normalBreakDuration minutes) toSeconds
+    case State.LongBreak => (this.options.longBreakDuration minutes) toSeconds
     case _ => Long.MaxValue
   }
 
@@ -58,33 +62,18 @@ case class Greenhouse(name: String,
     case _ => State.Paused
   }
 
-  def incrementTimer(): Greenhouse = {
-    val greenhouse: Greenhouse = Greenhouse(
-      this.name,
-      this.options,
-      this.participants,
-      this.state,
-      ((System.currentTimeMillis() - startTime) milliseconds) toSeconds
-    )
-    greenhouse.startTime = startTime
-    greenhouse
-  }
-
-  def start(): Greenhouse = Greenhouse(
-    this.name,
-    this.options,
-    this.participants,
-    State.Running,
-    this.currentTime
+  def incrementTimer(): Greenhouse = this.copy(
+    currentTime = ((System.currentTimeMillis() - startTime) milliseconds) toSeconds
   )
 
-  def addParticipant(participant: Participant): Greenhouse = Greenhouse(
-    this.name,
-    this.options,
-    participant :: this.participants,
-    this.state,
-    this.currentTime
-  ).tick()
+  def start(): Greenhouse = this.copy(
+    state = State.Running,
+    startTime = System.currentTimeMillis()
+  )
+
+  def addParticipant(participant: Participant): Greenhouse = this.copy(
+    participants = participant :: this.participants
+  ) tick()
 }
 
 
