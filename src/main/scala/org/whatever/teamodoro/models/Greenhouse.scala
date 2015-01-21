@@ -49,9 +49,9 @@ case class Greenhouse(name: String,
   }
 
   def stopAt: Long = this.state match {
-    case State.Running => (this.options.pomodoroDuration minutes) toSeconds
-    case State.ShortBreak => (this.options.normalBreakDuration minutes) toSeconds
-    case State.LongBreak => (this.options.longBreakDuration minutes) toSeconds
+    case State.Running => this.options.pomodoroDuration
+    case State.ShortBreak => this.options.shortBreakDuration
+    case State.LongBreak => this.options.longBreakDuration
     case _ => Long.MaxValue
   }
 
@@ -59,6 +59,7 @@ case class Greenhouse(name: String,
     case State.Running => State.ShortBreak
     case State.ShortBreak => State.Running
     case State.Paused => State.Running
+    case State.LongBreak => State.Running
     case _ => State.Paused
   }
 

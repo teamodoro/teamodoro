@@ -5,5 +5,4 @@ package org.whatever.teamodoro.models
  */
 
 case class Participant(id: Int, name: String) {
-
 }

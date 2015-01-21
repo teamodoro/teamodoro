@@ -8,7 +8,7 @@ import org.scalatra.json._
 import org.whatever.teamodoro.models._
 import scalate.ScalateSupport
 
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 
 class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
 
@@ -16,7 +16,11 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
 
   var greenhouse: Greenhouse = Greenhouse(
     "test",
-    GreenhouseOptions(1, 1, 15),
+    GreenhouseOptions(
+      (1 minutes).toSeconds,
+      (1 minutes).toSeconds,
+      (15 minutes).toSeconds
+    ),
     List(),
     State.Paused,
     System.currentTimeMillis(),
