@@ -20,7 +20,7 @@ import org.whatever.teamodoro.models.State._
 
 object GreenhouseSerializer {
   val serializer = FieldSerializer[Greenhouse](
-    FieldSerializer.ignore("participants")
+    FieldSerializer.ignore("participants") orElse FieldSerializer.ignore("startTime")
   )
 }
 
