@@ -31,6 +31,10 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
     greenhouse = newGreenhouse
   }
 
+  get("/api*") {
+    redirect("/")
+  }
+
   get("/api/current") {
     contentType = formats("json")
     replaceGreenhouse(greenhouse.tick())

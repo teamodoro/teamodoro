@@ -91,7 +91,7 @@ $(document).ready(function()
 		seconds = ((seconds < 10) ? "0" : "") + seconds; //Если меньше 10 сепкунд, то добавляем нулик
 		// Выводим
 		timeDiv.html(minutes + ":" + seconds);
-		console.log(minutes, seconds)
+
 		if ( minutes == 00 && seconds == 00 ) {
 			document.getElementById("endTimer").play();
 		}
