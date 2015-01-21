@@ -38,6 +38,18 @@ $(document).ready(function()
 		bgDiv.eq(activeDiv).addClass('active');
 	});
 
+	var randomBgBOOL = $('#randomBg');
+
+	function randomBg() {
+		bgDiv.eq(activeDiv).removeClass('active');
+		activeDiv = Math.floor(Math.random() * ((lengthBg - 1) - 0 + 1)) + 0;
+		bgDiv.eq(activeDiv).addClass('active');
+	}
+
+	setInterval(function(){
+		if ( randomBgBOOL[0].checked ) randomBg();
+	}, 1000*60);
+
 
 	/* TIMER */
 	var timeDiv = $('.time');

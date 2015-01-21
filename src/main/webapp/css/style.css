@@ -87,7 +87,6 @@ body, html {
 			bottom: 0;
 			left: 0;
 			background-position: center center;
-			background-size: 100% auto;
 			opacity: 0;
 			-webkit-transition: 0.8s all;
 			-o-transition: 0.8s all;
@@ -104,6 +103,15 @@ body, html {
 }
 .bg_3 {
 	background: url(../img/bg3.jpg);
+}
+.bg_4 {
+	background: url(../img/bg4.jpg);
+}
+.bg_5 {
+	background: url(../img/bg5.jpg);
+}
+.bg_6 {
+	background: url(../img/bg6.jpg);
 }
 .section_blur {
 	-webkit-filter: blur(30px); 
@@ -251,4 +259,14 @@ body, html {
 .time {
 	text-shadow: 0 3px 5px rgba(0,0,0,.3);
 	height: 170px;
+}
+
+label, input[type="checkbox"] {
+	font-size: 16px;
+	line-height: 16px;
+	height: 16px;
+}
+input[type="checkbox"], label {
+	display: inline-block;
+	vertical-align: middle;
 }
