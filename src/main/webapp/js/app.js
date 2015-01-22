@@ -59,6 +59,9 @@ app.controller('appController', function ($scope, $http) {
 		$scope.time.seconds = time.getSeconds();
 		$scope.time.seconds = (($scope.time.seconds < 10) ? "0" : "") + $scope.time.seconds; //Если меньше 10 сепкунд, то добавляем нулик
 
+		// Изменение тайтла документа
+		document.title = $scope.time.minutes + ":" + $scope.time.seconds + " ТОМАТОС ПРОДАКШН";
+
 		$scope.$digest(); // Проверка на изменение scope
 
 		if ( $scope.time.minutes == '00' && $scope.time.seconds == '00' ) {
