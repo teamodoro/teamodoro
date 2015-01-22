@@ -25,7 +25,6 @@ object GreenhouseSerializer {
 }
 
 object Greenhouse {
-
   def withName(name: String): Greenhouse =
     Greenhouse(
       name,
@@ -47,6 +46,8 @@ case class Greenhouse(name: String,
                       startTime: Long,
                       currentTime: Long) {
 
+  def isOutdated: Boolean = this.currentTime >= stopAt
+
   def tick(): Greenhouse = {
     val updated = incrementTimer()
     this.state match {
@@ -55,8 +56,6 @@ case class Greenhouse(name: String,
       case _ => updated
     }
   }
-
-  def isOutdated: Boolean = this.currentTime >= stopAt
 
   def catchUp: Greenhouse = {
     val overdue = this.currentTime - stopAt
