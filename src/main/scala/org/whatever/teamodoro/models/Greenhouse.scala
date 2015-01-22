@@ -49,24 +49,28 @@ case class Greenhouse(name: String,
   def isOutdated: Boolean = this.currentTime >= stopAt
 
   def tick(): Greenhouse = {
-    val updated = incrementTimer()
     this.state match {
       case State.Paused => this
-      case _ if updated.isOutdated => updated.catchUp
-      case _ => updated
+      case _ => this.catchUp
     }
   }
 
   def catchUp: Greenhouse = {
-    val overdue = this.currentTime - stopAt
+    val updated = this.updateCurrentTime()
 
-    val tillLongBreak = this.state match {
-      case State.Running => timesBeforeLongBreak - 1
-      case _ if timesBeforeLongBreak <= 0 => options.longBreakEvery
-      case _ => timesBeforeLongBreak
+    if (!updated.isOutdated) {
+      return updated
     }
 
-    val next = this.copy(
+    val overdue = updated.currentTime - stopAt
+
+    val tillLongBreak = updated.state match {
+      case State.Running => updated.timesBeforeLongBreak - 1
+      case _ if updated.timesBeforeLongBreak <= 0 => updated.options.longBreakEvery
+      case _ => updated.timesBeforeLongBreak
+    }
+
+    val next = updated.copy(
       state = nextState(),
       timesBeforeLongBreak = tillLongBreak,
       startTime = System.currentTimeMillis() - (overdue seconds).toMillis,
@@ -95,7 +99,7 @@ case class Greenhouse(name: String,
     case _ => State.Paused
   }
 
-  def incrementTimer(): Greenhouse = this.copy(
+  def updateCurrentTime(): Greenhouse = this.copy(
     currentTime = ((System.currentTimeMillis() - startTime) milliseconds) toSeconds
   )
 

@@ -39,5 +39,9 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
     replaceGreenhouse(greenhouse.start())
     redirect("/")
   }
+
+  get("/session") {
+    session
+  }
 }
 

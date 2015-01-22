@@ -78,6 +78,46 @@ class GreenhouseSpec extends FlatSpec with Matchers {
   }
 
   it should "catch up timer correctly" in {
-    fail("Not implemented")
+    val gh = Greenhouse.withName("catching")
+
+    gh.state should equal(State.Running)
+    gh.catchUp.state should equal(State.Running)
+
+    makeOutdated(gh).catchUp.state should equal(State.ShortBreak)
+
+    /** Tomato (25 mins) + Break (5 mins) => Running */
+    gh.copy(
+      startTime = System.currentTimeMillis() -
+        (greenhouse.options.running.duration * 1000) -
+        (greenhouse.options.shortBreak.duration * 1000)
+    ).catchUp.state should equal(State.Running)
+
+    /** Tomato (25 mins) + Break (5 mins) - 1 minute => Short Break */
+    gh.copy(
+      startTime = System.currentTimeMillis() -
+        (greenhouse.options.running.duration * 1000) -
+        (greenhouse.options.shortBreak.duration * 1000) +
+        (1 minute).toMillis
+    ).catchUp.state should equal(State.ShortBreak)
+
+    /** Tomato + 10 mins => Running */
+    gh.copy(
+      startTime = System.currentTimeMillis() -
+        (greenhouse.options.running.duration * 1000) -
+        (10 minutes).toMillis
+    ).catchUp.state should equal(State.Running)
+
+    /** Tomato + Tomato => Running */
+    gh.copy(
+      startTime = System.currentTimeMillis() -
+        (greenhouse.options.running.duration * 1000) * 2
+    ).catchUp.state should equal(State.Running)
+
+    /** Tomato * 4 + Short Break * 3 => Long Break */
+    gh.copy(
+      startTime = System.currentTimeMillis() -
+        (greenhouse.options.running.duration * 1000) * 4 -
+        (greenhouse.options.shortBreak.duration * 1000) * 3
+    ).catchUp.state should equal(State.LongBreak)
   }
 }
