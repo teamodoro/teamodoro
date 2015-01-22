@@ -26,7 +26,14 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
 
   get("/api/current") {
     contentType = formats("json")
-    replaceGreenhouse(greenhouse.tick())
+
+    val sha256 = java.security.MessageDigest.getInstance("SHA-256")
+    var sessionHash = sha256.digest(session.getId.getBytes("UTF-8")).map("%02x".format(_)).mkString
+
+    if (!session.isNew) {
+      replaceGreenhouse(greenhouse.addParticipant(Participant.withSession(sessionHash)))
+    }
+    replaceGreenhouse(greenhouse.markAliveSession(sessionHash).tick())
     greenhouse
   }
 

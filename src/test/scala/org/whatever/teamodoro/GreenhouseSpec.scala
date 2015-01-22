@@ -35,9 +35,42 @@ class GreenhouseSpec extends FlatSpec with Matchers {
   }
 
   it should "handle new participants" in {
-    val withVasya = greenhouse.addParticipant(Participant(0, "Вася"))
+    val withVasya = greenhouse.addParticipant(Participant.withNameAndSession(Some("Вася"), "session"))
+
     withVasya.participants should have size 1
-    withVasya.participants.head.name should equal("Вася")
+    withVasya.participants.head.name should equal(Some("Вася"))
+  }
+
+  it should "not allow to add user twice" in {
+    val gh = List(
+      Participant.withSession("1"),
+      Participant.withSession("2"),
+      Participant.withSession("1")
+    ).foldLeft(Greenhouse.withName("uniq-participants")) {
+      (g, p) => g.addParticipant(p)
+    }
+
+    gh.participants should have size 2
+  }
+
+  it should "kick out inactive users" in {
+
+    val participants = List(
+      Participant.withSession("1").copy(lastAccess = 0),
+      Participant.withSession("2").copy(lastAccess = 1),
+      Participant.withSession("3").copy(lastAccess = 2)
+    )
+
+    val gh = participants.foldLeft(Greenhouse.withName("kicking-greenhouse")) {
+      (g, p) => g.addParticipant(p)
+    }
+
+    val updatedLastAccess = gh.markAliveSession("1").participants.find(_.session == "1") match {
+      case Some(p) => p.lastAccess
+      case _ => 0
+    }
+    (updatedLastAccess > 0) should equal(true)
+    gh.markAliveSession("1").kickIdleParticipants.participants should have size 1
   }
 
   it should "handle 'outdated' state" in {

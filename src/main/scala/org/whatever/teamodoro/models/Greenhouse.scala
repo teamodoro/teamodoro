@@ -51,7 +51,7 @@ case class Greenhouse(name: String,
   def tick(): Greenhouse = {
     this.state match {
       case State.Paused => this
-      case _ => this.catchUp
+      case _ => this.catchUp.kickIdleParticipants
     }
   }
 
@@ -108,8 +108,24 @@ case class Greenhouse(name: String,
     startTime = System.currentTimeMillis()
   )
 
-  def addParticipant(participant: Participant): Greenhouse = this.copy(
-    participants = participant :: participants
+  def addParticipant(participant: Participant): Greenhouse = {
+    participants.find(_.session == participant.session) match {
+      case Some(_) => this
+      case None => this.copy(
+        participants = participant :: participants
+      )
+    }
+  }
+
+
+  def markAliveSession(session: String): Greenhouse = this.copy(
+    participants = participants.map {
+      p => if (p.session == session) p.markAlive else p
+    }
+  )
+
+  def kickIdleParticipants: Greenhouse = this.copy(
+    participants = participants.filter(p => (p.fromLastAccess millis).toSeconds < options.aliveTimeout)
   )
 }
 

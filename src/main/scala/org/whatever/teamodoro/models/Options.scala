@@ -20,4 +20,5 @@ object Options {
 case class Options(running: DurationOptions,
                    shortBreak: DurationOptions,
                    longBreak: DurationOptions,
-                   longBreakEvery: Int);
+                   longBreakEvery: Int,
+                   aliveTimeout: Int = 60);
