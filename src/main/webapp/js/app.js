@@ -14,6 +14,7 @@ app.controller('appController', function ($scope, $http) {
 	}; // Минуты и секунды
 	$scope.fullTime; // Полное время
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
+	$scope.randomChecked = true;
 
 	// Получаение данных с апишки
 	$scope.startGet = function() {
@@ -65,6 +66,11 @@ app.controller('appController', function ($scope, $http) {
 			$scope.timerIntervalBOOL = false;
 			console.log("End period");
 			$scope.startGet();
+			$scope.tomatos = true;
+
+			setTimeout(function(){
+				$scope.tomatos = false;
+			}, 1200);
 		}
 	}
 

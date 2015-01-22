@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta charset="utf-8" />
-		<title></title>
+		<title>ТОМАТОС ПРОДАКШН</title>
 		<link rel="stylesheet" href="css/reset.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="js/html5.js"></script>
@@ -24,10 +24,10 @@
 		<div class="section_blur"></div>
 		<div class="modal_activity">
 			<div class="section">
-				<div class="period {{periodClass}}">{{periodName}}</div>
-				<div class="time">{{time.minutes}}:{{time.seconds}}</div>
+				<div class="period {{periodClass}}" ng-bind="periodName"></div>
+				<div class="time"><span ng-bind="time.minutes"></span>:<span ng-bind="time.seconds"></span></div>
 				<div>
-					<a href="#" id="person">Помидорят {{countPersonPomidoro}} пользователей</a>
+					<a href="#" id="person">Помидорят <span ng-bind="countPersonPomidoro"></span> пользователей</a>
 				</div>
 				<div>
 					<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">
@@ -43,16 +43,15 @@
 				<p>Михалыч-C</p>
 				<p>Принцесса Java</p>
 			</div>
+			<div ng-model="tomatos">
+				<img src="img/pomidor.png" ng-class="{'active' : tomatos}" class="pomidoro" alt="">				
+			</div>
 		</div>
 
-		<center>
-			<div>
-				We call it "beta" because it's betta than nothing!
-			</div>
-		</center>
-
 	</div>
-	
+
+	<small>We call it "beta" because it's betta than nothing!</small>
+
 	<audio id="endTimer">
 		<source src="sounds/endsound.mp3" />
 	</audio>
