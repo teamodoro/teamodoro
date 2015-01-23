@@ -226,6 +226,11 @@ body, html {
 	.modal_person p {
 		margin: 0;
 		margin-bottom: 5px;
+		padding: 4px;
+		word-wrap: break-word
+	}
+	.modal_person p:nth-child(even) {
+		background: rgba(0,0,0,.2);
 	}
 
 .modal_activity.active {

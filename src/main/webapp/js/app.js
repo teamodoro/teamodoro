@@ -15,6 +15,15 @@ app.controller('appController', function ($scope, $http) {
 	$scope.fullTime; // Полное время
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
 	$scope.randomChecked = true;
+	$scope.modalPerson = false; // переменная для модального окна
+
+	$scope.sessionItems = [
+		{
+			'session' : 1
+		},
+		{
+			'session' : 2
+		}]
 
 	// Получаение данных с апишки
 	$scope.startGet = function() {
@@ -33,6 +42,7 @@ app.controller('appController', function ($scope, $http) {
 			success(function(data, status, headers, config) {
 				console.log("Success Session");
 				$scope.countPersonPomidoro = data.length;
+				$scope.sessionItems = data;
 			}).
 			error(function(data, status, headers, config) {
 				console.log("Error Get Session");
