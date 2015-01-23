@@ -117,7 +117,6 @@ case class Greenhouse(name: String,
     }
   }
 
-
   def markAliveSession(session: String): Greenhouse = this.copy(
     participants = participants.map {
       p => if (p.session == session) p.markAlive else p

@@ -12,6 +12,7 @@ class ParticipantSpec extends FlatSpec with Matchers {
   "Participant" should "should be named or anonymous" in {
       val part = Participant.withNameAndSession(Some("Вася"), "session-string")
       part.name.get should equal("Вася")
+      part.isAnonymous should equal(false)
 
       val anon = Participant.withSession("session-string")
       anon.isAnonymous should equal(true)
