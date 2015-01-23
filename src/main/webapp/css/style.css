@@ -255,13 +255,14 @@ body, html {
 	top: 50%;
 	margin-left: -200px;
 	margin-top: -200px;
-	z-index: 8;
+	z-index: 0;
 	opacity: 0;
 	-webkit-transition: 1s;
 	-o-transition: 1s;
 	transition: 1s;
 }
 .pomidoro.active {
+	z-index: 8;
 	opacity: 1;
 	-webkit-transform: rotate(3600deg);
 	-ms-transform: rotate(3600deg);
