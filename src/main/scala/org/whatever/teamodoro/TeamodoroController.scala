@@ -20,15 +20,11 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
     greenhouse = newGreenhouse
   }
 
-  get("/api*") {
-    redirect("/")
-  }
-
   get("/api/current") {
     contentType = formats("json")
 
     val sha256 = java.security.MessageDigest.getInstance("SHA-256")
-    var sessionHash = sha256.digest(session.getId.getBytes("UTF-8")).map("%02x".format(_)).mkString
+    val sessionHash = sha256.digest(session.getId.getBytes("UTF-8")).map("%02x".format(_)).mkString
 
     if (!session.isNew) {
       replaceGreenhouse(greenhouse.addParticipant(Participant.withSession(sessionHash)))
@@ -40,15 +36,6 @@ class TeamodoroController extends TeamodoroStack with JacksonJsonSupport {
   get("/api/current/participants") {
     contentType = formats("json")
     greenhouse.participants
-  }
-
-  get("/api/start") {
-    replaceGreenhouse(greenhouse.start())
-    redirect("/")
-  }
-
-  get("/session") {
-    session
   }
 }
 
