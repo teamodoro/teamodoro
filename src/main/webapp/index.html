@@ -22,12 +22,12 @@
 			<a href="#" ng-click="leftClick();" class="left"></a>
 		</div>
 		<div class="section_blur"></div>
-		<div class="modal_activity">
+		<div class="modal_activity" ng-class="{'active' : modalPerson}">
 			<div class="section">
 				<div class="period {{periodClass}}" ng-bind="periodName"></div>
 				<div class="time"><span ng-bind="time.minutes"></span>:<span ng-bind="time.seconds"></span></div>
 				<div>
-					<a href="#" id="person">Помидорят <span ng-bind="countPersonPomidoro"></span> пользователей</a>
+					<a href="#" ng-click="modalPerson=!modalPerson">Помидорят <span ng-bind="countPersonPomidoro"></span> пользователей</a>
 				</div>
 				<div>
 					<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">
@@ -36,12 +36,10 @@
 					</label>
 				</div>
 			</div>
-			<div id="modal" class="modal_person">
-				<p>Семен Семеныч</p>
-				<p>Евгений не дизайнер</p>
-				<p>Дмитрий бородач</p>
-				<p>Михалыч-C</p>
-				<p>Принцесса Java</p>
+			<div id="modal" class="modal_person" ng-click="modalPerson=!modalPerson">
+				<p ng-repeat="item in sessionItems">
+					{{item.session}}
+				</p>
 			</div>
 			<div ng-model="tomatos">
 				<img src="img/pomidor.png" ng-class="{'active' : tomatos}" class="pomidoro" alt="">				

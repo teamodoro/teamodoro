@@ -6,7 +6,7 @@ var app = angular.module('myApp', []);
 
 app.controller('appController', function ($scope, $http) {
 
-	$scope.countPersonPomidoro = 5; // Кол-во людей сидящих на помидорах
+	$scope.countPersonPomidoro = 0; // Кол-во людей сидящих на помидорах
 	$scope.periodName = ""; // Имя периода
 	$scope.time = {
 		seconds : "",
@@ -15,19 +15,37 @@ app.controller('appController', function ($scope, $http) {
 	$scope.fullTime; // Полное время
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
 	$scope.randomChecked = true;
+	$scope.modalPerson = false; // переменная для модального окна
+
+	$scope.sessionItems = [
+		{
+			'session' : 1
+		},
+		{
+			'session' : 2
+		}]
 
 	// Получаение данных с апишки
 	$scope.startGet = function() {
 		$http.get('/api/current').
 			success(function(data, status, headers, config) {
-				console.log("Success");
+				console.log("Success Timer");
 				$scope.refreshConts(data);
 				// Если таймер выключен то врубаем его
 				if ( !$scope.timerIntervalBOOL ) $scope.timerIntervalBOOL = true;
 			}).
 			error(function(data, status, headers, config) {
-				// called asynchronously if an error occurs
-				// or server returns response with an error status.
+				console.log("Error Get Timer");
+			});
+
+		$http.get('/api/current/participants').
+			success(function(data, status, headers, config) {
+				console.log("Success Session");
+				$scope.countPersonPomidoro = data.length;
+				$scope.sessionItems = data;
+			}).
+			error(function(data, status, headers, config) {
+				console.log("Error Get Session");
 			});
 	}
 
