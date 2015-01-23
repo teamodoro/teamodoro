@@ -38,7 +38,7 @@
 			</div>
 			<div id="modal" class="modal_person" ng-click="modalPerson=!modalPerson">
 				<p ng-repeat="item in sessionItems">
-					{{item.session}}
+					{{item.name ? item.name : "Анонимный садовод " + ($index + 1)}}
 				</p>
 			</div>
 			<div ng-model="tomatos">

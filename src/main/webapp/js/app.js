@@ -42,6 +42,12 @@ app.controller('appController', function ($scope, $http) {
 			success(function(data, status, headers, config) {
 				console.log("Success Session");
 				$scope.countPersonPomidoro = data.length;
+				// data.map(function(person) {
+				// 	if (person.name == null) {
+				// 		person.name = "Анонимный Садовод"
+				// 	}
+				// 	return person;
+				// })
 				$scope.sessionItems = data;
 			}).
 			error(function(data, status, headers, config) {
