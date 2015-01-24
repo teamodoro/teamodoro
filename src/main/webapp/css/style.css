@@ -12,7 +12,7 @@
 @charset "utf-8";
 /* Глобальные
 -------------------------------------------------------------------------------*/
-body { font-family: 'helveticaneuecyrroman'; color: #3A3935; font-size: 15px; }
+body { font-family: 'helveticaneuecyrroman'; color: #3A3935; font-size: 15px; background: #000; }
 
 /* Типографика */
 
@@ -313,3 +313,25 @@ input[type="checkbox"], label {
 	display: inline-block;
 	vertical-align: middle;
 }
+
+#pomidoroCanvas { position: absolute; left: 50%; top: 50%; }
+
+.uporot_div {
+	position: absolute;
+	right: 300px;
+	top: 0;
+	height: 250px;
+	width: 250px;
+	z-index: 100;
+}
+	.uporot_div > img {
+		position: absolute;
+		bottom: 250px;
+		left: 0;
+		-webkit-transition: 0.5s all;
+		-o-transition: 0.5s all;
+		transition: 0.5s all;
+	}
+	.uporot_div:hover > img {
+		bottom: 0;
+	}

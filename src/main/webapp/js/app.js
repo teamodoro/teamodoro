@@ -16,6 +16,7 @@ app.controller('appController', function ($scope, $http) {
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
 	$scope.randomChecked = true;
 	$scope.modalPerson = false; // переменная для модального окна
+	$scope.pomidoroCanvasAng = false;
 
 	$scope.sessionItems = [
 		{
@@ -142,6 +143,13 @@ app.controller('appController', function ($scope, $http) {
 	setInterval(function(){
 		if ( $scope.randomChecked ) $scope.randomBg();
 	}, 1000*60);
+
+	$scope.startPomidoroCanvas = function() {
+		console.log(pomidoroCanvas);
+		pomidoroCanvas=!pomidoroCanvas;
+		$scope.pomidoroCanvasAng=!$scope.pomidoroCanvasAng;
+		update();
+	}
 
 });
 

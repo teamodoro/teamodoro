@@ -14,7 +14,11 @@
 <body ng-controller="appController">
 	
 	<div class="content">
-		<div>
+		<div class="uporot_div">
+			<img src="img/pomidor_uporot.png" ng-click="startPomidoroCanvas();" alt="">
+		</div>
+		<canvas ng-show="pomidoroCanvasAng" id="pomidoroCanvas"></canvas>
+		<div ng-hide="pomidoroCanvasAng">
 			<div class="bg">
 				<div ng-repeat="i in countBg" class="bg_{{i + 1}}" ng-class="{'active' : activeDiv == i}"></div>
 			</div>
@@ -54,7 +58,8 @@
 		<source src="sounds/endsound.mp3" />
 	</audio>
 
-
+	
+	<script src="js/pomidorCanvas.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="js/app.js"></script>
 
