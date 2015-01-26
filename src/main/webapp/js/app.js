@@ -119,7 +119,7 @@ app.controller('appController', function ($scope, $http) {
 
 		$scope.$digest(); // Проверка на изменение scope
 
-		if ( $scope.time.minutes == '08' && $scope.time.seconds == '40' ) {
+		if ( $scope.time.minutes == '00' && $scope.time.seconds == '00' ) {
 			document.getElementById("endTimer").play();
 			$scope.timerIntervalBOOL = false;
 			console.log("End period");
