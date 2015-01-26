@@ -6,7 +6,8 @@ var canvas,
     maxCountPomidoro = 10,
     matrixText = ["A","B","#","@","&","*","%","[","]","±","<","!","/","?"],
     pomidoroCanvas = false,
-    statusColor = "255, 255, 255, ";
+    statusColor = "255, 255, 255, ",
+    ua;
 
 function init() {
     canvas = document.getElementById("pomidoroCanvas");
@@ -15,8 +16,8 @@ function init() {
     canvas.width  = w; // Ширина игрового поля
     canvas.height = h; // Высота игрового поля
 
-    canvas.style.marginTop = "-"+h/2+"px";
-    canvas.style.marginLeft = "-"+w/2+"px";
+    // canvas.style.marginTop = "-"+h/2+"px";
+    // canvas.style.marginLeft = "-"+w/2+"px";
 
     maxCountPomidoro = w/6;
 
@@ -27,8 +28,8 @@ function init() {
 }
 
 function imageLoad(){
-	pomidorImg = new Image();
-	pomidorImg.src = "img/pomidor_oporot_mini.png";
+    pomidorImg = new Image();
+    pomidorImg.src = "img/pomidor_oporot_mini.png";
 }
 
 function randomFunction( min, max ) {
@@ -97,8 +98,11 @@ function update() {
 
 pomidorObj.prototype.draw = function() {
 
-    if ( this.text == null ) {
-        ctx.drawImage( pomidorImg, 0, 0, 40, 40, this.x, this.y, 80, 80 );
+    if ( this.text == null || this.text === null || this.text == 'null' ) {
+        // Это нужно выводить во всех браузерах кроме сафари, но хз как определить нормально рабуезер
+        // ctx.drawImage( pomidorImg, 0, 0, 40, 40, 250, 250, 40, 40 );
+        ctx.drawImage( pomidorImg, this.x, this.y, 40, 40 );
+        
     } else {
         ctx.fillStyle = "RGBA(" + statusColor + this.opacity + ")";
         ctx.font = "bold 45px Arial";

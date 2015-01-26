@@ -314,7 +314,7 @@ input[type="checkbox"], label {
 	vertical-align: middle;
 }
 
-#pomidoroCanvas { position: absolute; left: 50%; top: 50%; }
+#pomidoroCanvas { position: absolute; left: 0; top: 0; background: #000; }
 
 .uporot_div {
 	position: absolute;
