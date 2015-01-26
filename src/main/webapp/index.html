@@ -31,7 +31,7 @@
 				<div class="period {{periodClass}}" ng-bind="periodName"></div>
 				<div class="time"><span ng-bind="time.minutes"></span>:<span ng-bind="time.seconds"></span></div>
 				<div>
-					<a href="#" ng-click="modalPerson=!modalPerson">Помидорят <span ng-bind="countPersonPomidoro"></span> пользователей</a>
+					<a href="#" ng-click="modalPerson=!modalPerson">Помидорят <span ng-bind="countPersonPomidoro"></span><span ng-bind="wordPerson"></span></a>
 				</div>
 				<div>
 					<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">

@@ -18,13 +18,9 @@ app.controller('appController', function ($scope, $http) {
 	$scope.modalPerson = false; // переменная для модального окна
 	$scope.pomidoroCanvasAng = false;
 
-	$scope.sessionItems = [
-		{
-			'session' : 1
-		},
-		{
-			'session' : 2
-		}]
+	$scope.sessionItems = [];
+
+	$scope.wordPerson = ' пользователей';
 
 	// Получаение данных с апишки
 	$scope.startGet = function() {
@@ -34,6 +30,8 @@ app.controller('appController', function ($scope, $http) {
 				$scope.refreshConts(data);
 				// Если таймер выключен то врубаем его
 				if ( !$scope.timerIntervalBOOL ) $scope.timerIntervalBOOL = true;
+
+
 			}).
 			error(function(data, status, headers, config) {
 				console.log("Error Get Timer");
@@ -50,6 +48,7 @@ app.controller('appController', function ($scope, $http) {
 				// 	return person;
 				// })
 				$scope.sessionItems = data;
+				$scope.wordSplice();
 			}).
 			error(function(data, status, headers, config) {
 				console.log("Error Get Session");
@@ -64,12 +63,43 @@ app.controller('appController', function ($scope, $http) {
 		$scope.startGet();
 	}, 5000);
 
+	$scope.wordSplice = function() {		
+		var count = "" + $scope.countPersonPomidoro + "";
+
+		var aT = count.slice(count.length - 1, count.length);
+		var aT2 = count.slice(count.length - 2, count.length);
+
+		if(aT == 0 || aT == 5 || aT == 6 || aT == 7 || aT == 8 || aT == 9 || aT2 == 11)
+		{
+			$scope.wordPerson = ' пользователей';
+		}
+		else if(aT == 1 && aT2 != 11)
+		{
+			$scope.wordPerson = ' пользователь';
+		}
+		else if(aT == 2 || aT == 3 || aT == 4)
+		{
+			if(aT2 == 12 || aT2 == 13 || aT2 == 14)
+			{
+				$scope.wordPerson = ' пользователей';
+			}
+			else
+			{
+				$scope.wordPerson = ' пользователя';
+			}
+		}
+	}
+
 	// Обновление имени периода, цвета и времени общего
 	$scope.refreshConts = function(data) {
 		$scope.periodName = data.state.name;
 		$scope.periodClass = data.options[data.state.name].color;
 		$scope.fullTime = data.options[data.state.name].duration - data.currentTime;
 		$scope.JSON = data;
+
+		if ( $scope.periodClass == 'white' ) statusColor = "242, 242, 242, ";
+		if ( $scope.periodClass == 'yellow' ) statusColor = "255, 228, 0, ";
+		if ( $scope.periodClass == 'green' ) statusColor = "58, 208, 38, ";
 	}
 
 	// Работа над временем
@@ -89,7 +119,7 @@ app.controller('appController', function ($scope, $http) {
 
 		$scope.$digest(); // Проверка на изменение scope
 
-		if ( $scope.time.minutes == '00' && $scope.time.seconds == '00' ) {
+		if ( $scope.time.minutes == '08' && $scope.time.seconds == '40' ) {
 			document.getElementById("endTimer").play();
 			$scope.timerIntervalBOOL = false;
 			console.log("End period");
@@ -99,6 +129,8 @@ app.controller('appController', function ($scope, $http) {
 			setTimeout(function(){
 				$scope.tomatos = false;
 			}, 1200);
+
+			
 		}
 	}
 

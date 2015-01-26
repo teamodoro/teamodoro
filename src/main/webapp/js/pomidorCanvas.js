@@ -5,7 +5,8 @@ var canvas,
     massObj = [],
     maxCountPomidoro = 10,
     matrixText = ["A","B","#","@","&","*","%","[","]","±","<","!","/","?"],
-    pomidoroCanvas = false;
+    pomidoroCanvas = false,
+    statusColor = "255, 255, 255, ";
 
 function init() {
     canvas = document.getElementById("pomidoroCanvas");
@@ -99,7 +100,7 @@ pomidorObj.prototype.draw = function() {
     if ( this.text == null ) {
         ctx.drawImage( pomidorImg, 0, 0, 40, 40, this.x, this.y, 80, 80 );
     } else {
-        ctx.fillStyle = "RGBA(255, 0, 0, " + this.opacity + ")";
+        ctx.fillStyle = "RGBA(" + statusColor + this.opacity + ")";
         ctx.font = "bold 45px Arial";
         ctx.fillText( this.text, this.x, this.y);        
     }
