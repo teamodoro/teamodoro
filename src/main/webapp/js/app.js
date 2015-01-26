@@ -8,6 +8,7 @@ app.controller('appController', function ($scope, $http) {
 
 	$scope.countPersonPomidoro = 0; // Кол-во людей сидящих на помидорах
 	$scope.periodName = ""; // Имя периода
+	$scope.periodNameOld = "";
 	$scope.time = {
 		seconds : "",
 		minutes : ""
@@ -63,6 +64,8 @@ app.controller('appController', function ($scope, $http) {
 		$scope.startGet();
 	}, 5000);
 
+
+	// Смена окончания слова
 	$scope.wordSplice = function() {		
 		var count = "" + $scope.countPersonPomidoro + "";
 
@@ -92,9 +95,10 @@ app.controller('appController', function ($scope, $http) {
 
 	// Обновление имени периода, цвета и времени общего
 	$scope.refreshConts = function(data) {
-		$scope.periodName = data.state.name;
-		$scope.periodClass = data.options[data.state.name].color;
-		$scope.fullTime = data.options[data.state.name].duration - data.currentTime;
+		$scope.periodName = data.state.name; // Именование статуса
+		if ( $scope.periodNameOld == "" ) $scope.periodNameOld = $scope.periodName;
+		$scope.periodClass = data.options[data.state.name].color; // Цвет статуса
+		$scope.fullTime = data.options[data.state.name].duration - data.currentTime; // Текущее время
 		$scope.JSON = data;
 
 		if ( $scope.periodClass == 'white' ) statusColor = "242, 242, 242, ";
@@ -119,12 +123,13 @@ app.controller('appController', function ($scope, $http) {
 
 		$scope.$digest(); // Проверка на изменение scope
 
-		if ( $scope.time.minutes == '00' && $scope.time.seconds == '00' ) {
+		if ( $scope.time.minutes == '00' && $scope.time.seconds == '00' || ( $scope.periodName != $scope.periodNameOld ) ) {
 			document.getElementById("endTimer").play();
 			$scope.timerIntervalBOOL = false;
 			console.log("End period");
 			$scope.startGet();
 			$scope.tomatos = true;
+			$scope.periodNameOld = $scope.periodName
 
 			setTimeout(function(){
 				$scope.tomatos = false;
