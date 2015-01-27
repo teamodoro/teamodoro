@@ -1,10 +1,10 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['menuApp']);
 
 
-app.controller('appController', function ($scope, $http) {
+app.controller('appController', function ($scope, $rootScope, $http) {
 
 	$scope.countPersonPomidoro = 0; // Кол-во людей сидящих на помидорах
 	$scope.periodName = ""; // Имя периода
@@ -15,10 +15,10 @@ app.controller('appController', function ($scope, $http) {
 	}; // Минуты и секунды
 	$scope.fullTime; // Полное время
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
-	$scope.randomChecked = true;
+	$scope.randomChecked = true; // Рандомные фоны
 	$scope.modalPerson = false; // переменная для модального окна
-	$scope.pomidoroCanvasAng = false;
-	$scope.nextLongBreak = 0;
+	$scope.pomidoroCanvasAng = false; // 
+	$scope.nextLongBreak = 0; // До большого периода
 
 	$scope.sessionItems = [];
 
@@ -100,7 +100,7 @@ app.controller('appController', function ($scope, $http) {
 		if ( $scope.periodNameOld == "" ) $scope.periodNameOld = $scope.periodName;
 		$scope.periodClass = data.options[data.state.name].color; // Цвет статуса
 		$scope.fullTime = data.options[data.state.name].duration - data.currentTime; // Текущее время
-		$scope.nextLongBreak = data.timesBeforeLongBreak;
+		$scope.nextLongBreak = data.timesBeforeLongBreak; // Текущее время
 		$scope.JSON = data;
 
 		if ( $scope.periodClass == 'white' ) statusColor = "242, 242, 242, ";
@@ -184,6 +184,7 @@ app.controller('appController', function ($scope, $http) {
 	}, 1000*60);
 
 	$scope.startPomidoroCanvas = function() {
+		console.log(pomidoroCanvas);
 		pomidoroCanvas=!pomidoroCanvas;
 		$scope.pomidoroCanvasAng=!$scope.pomidoroCanvasAng;
 		update();

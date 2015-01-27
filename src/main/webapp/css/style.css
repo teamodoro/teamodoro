@@ -341,15 +341,15 @@ input[type="checkbox"], label {
 .menu {
 	width: 1000px;
 	top: 0;
-	bottom: calc(100% - 40px);
+	height: 40px;
 	left: 50%;
 	margin-left: -500px;
 	position: absolute;
 	z-index: 50;
 	overflow: auto;
-	-webkit-transition: 0.3s bottom;
-	-o-transition: 0.3s bottom;
-	transition: 0.3s bottom;
+	-webkit-transition: 0.3s height;
+	-o-transition: 0.3s height;
+	transition: 0.3s height;
 }
 	.menu > .menu-content {
 		height: 0;
@@ -362,7 +362,7 @@ input[type="checkbox"], label {
 	}
 
 .menu.active {
-	bottom: 0;
+	height: 800px;
 	background: rgba(0, 0, 0, .9);
 }
 	.menu.active > .menu-content {
@@ -418,7 +418,7 @@ input[type="checkbox"], label {
 		background: rgba(0,0,0,.3);
 		text-align: center;
 		text-decoration: none;
-		opacity: 0;
+		opacity: 0.1;
 		font-weight: bold;
 		-webkit-transition: 0.4s all;
 		-o-transition: 0.4s all;
@@ -448,7 +448,25 @@ input[type="checkbox"], label {
 			-webkit-transition: 0.4s all;
 			-o-transition: 0.4s all;
 			transition: 0.4s all;
+			text-decoration: none;
 		}
 			.menu-menu > li > a:hover {
 				background: rgba(176, 0, 186, 1);
 			}
+			.menu-menu > li.active > a {
+				background: rgba(176, 0, 186, 1);
+				box-shadow: 0 0 10px #B000BA;	
+			}
+
+.statistic-list {
+	display: block;
+}
+	.statistic-list > li {
+		display: block;
+		font-size: 18px;
+		color: #fff;
+		padding: 6px;
+	}
+	.statistic-list > li:nth-child(even) {
+		background: rgba(255, 255, 255, .1);
+	}

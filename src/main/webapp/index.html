@@ -13,24 +13,7 @@
 	</head>
 <body ng-controller="appController">
 	<div class="content">
-		<nav class="menu" ng-class="{'active' : hideMenu}">
-			<aside class="menu-content">
-				<ul class="menu-menu">
-					<!-- <li>
-						<a href="#">Выбор фона</a>
-					</li> -->
-					<li>
-						<a href="#" ng-click="hideMenu=!hideMenu">Закрыть</a>
-					</li>
-				</ul>
-				<a href="#" ng-repeat="i in countBg" ng-click="selectBg(i);" class="select-bg" style="background-image: url(../img/bg{{i + 1}}.jpg);">
-					<div class="select-content">
-						Фон {{i + 1}}
-					</div>
-				</a>
-			</aside>
-			<a href="#" ng-click="hideMenu=!hideMenu" class="menu-link">Показать меню</a>
-		</nav>
+		<ng-include src="'/menu.html'"></ng-include>
 		<div class="uporot_div">
 			<img src="img/pomidor_uporot.png" ng-click="startPomidoroCanvas();" alt="">
 		</div>
@@ -46,16 +29,11 @@
 		<div class="modal_activity" ng-class="{'active' : modalPerson}">
 			<div class="section">
 				<div class="period {{periodClass}}" ng-bind="periodName"></div>
-				<div class="small">До следующего лонгбрейка: <span ng-bind="nextLongBreak"></span> помидорины</div>
 				<div class="time"><span ng-bind="time.minutes"></span>:<span ng-bind="time.seconds"></span></div>
 				<div>
 					<a href="#" ng-click="modalPerson=!modalPerson">Помидорят <span ng-bind="countPersonPomidoro"></span><span ng-bind="wordPerson"></span></a>
 				</div>
 				<div>
-					<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">
-					<label for="randomBg">
-						Рандомный фон
-					</label>
 				</div>
 			</div>
 			<div id="modal" class="modal_person" ng-click="modalPerson=!modalPerson">
@@ -79,6 +57,7 @@
 	
 	<script src="js/pomidorCanvas.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
+	<script src="js/menu.js"></script>
 	<script src="js/app.js"></script>
 
 
