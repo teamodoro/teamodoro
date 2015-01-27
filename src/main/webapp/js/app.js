@@ -18,6 +18,7 @@ app.controller('appController', function ($scope, $http) {
 	$scope.randomChecked = true;
 	$scope.modalPerson = false; // переменная для модального окна
 	$scope.pomidoroCanvasAng = false;
+	$scope.nextLongBreak = 0;
 
 	$scope.sessionItems = [];
 
@@ -99,6 +100,7 @@ app.controller('appController', function ($scope, $http) {
 		if ( $scope.periodNameOld == "" ) $scope.periodNameOld = $scope.periodName;
 		$scope.periodClass = data.options[data.state.name].color; // Цвет статуса
 		$scope.fullTime = data.options[data.state.name].duration - data.currentTime; // Текущее время
+		$scope.nextLongBreak = data.timesBeforeLongBreak;
 		$scope.JSON = data;
 
 		if ( $scope.periodClass == 'white' ) statusColor = "242, 242, 242, ";

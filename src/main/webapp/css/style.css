@@ -429,6 +429,10 @@ input[type="checkbox"], label {
 			color: #fff;
 		}
 
+.section .small {
+	font-size: 10px;
+}
+
 .menu-menu {
 	display: block;
 	margin-bottom: 30px;
