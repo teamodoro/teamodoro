@@ -7,7 +7,12 @@ var canvas,
     matrixText = ["A","B","#","@","&","*","%","[","]","±","<","!","/","?"],
     pomidoroCanvas = false,
     statusColor = "255, 255, 255, ",
+    branchMass = [],
     ua;
+
+var liricText = "Эстрагон (вновь останавливаясь). Гиблое дело.Владимир (подходит к нему мелкими шажками, широко расставляя негнущиеся ноги). Мне тоже начинает так казаться. (Молчит, думает.) Сколько лет я гнал от себя эту мысль, все уговаривал себя: Владимир, подумай, может, еще не все потеряно. И опять бросался в бой. (Задумывается, вспоминая о тяготах борьбы. Эстрагону.) Я смотрю, ты опять здесь.Эстрагон. Думаешь?Владимир. Рад тебя снова видеть. Я думал, ты больше не вернешься.Эстрагон. Я тоже.Владимир. Надо как-то отметить нашу встречу. (Задумывается.) А ну-ка, встань, я тебя обниму. (Протягивает Эстрагону руку.)Эстрагон (раздраженно). Погоди, погоди. Пауза.Владимир (оскорбленный, холодно). Позвольте узнать, где Мсье изволил провести ночь?Эстрагон. В канаве.Владимир (в изумлении). В канаве?! Где?Эстрагон (не шевелясь). Там.Владимир. И тебя не били?Эстрагон. Били... Не очень сильно.Владимир. Все те же?Эстрагон. Те же? Не знаю. Пауза.Владимир. Вот я думаю... давно думаю... все спрашиваю себя... во что бы ты превратился... если бы не я... (Решительно.) В жалкую кучу костей, можешь не сомневаться,Эстрагон (задетый за живое). Ну и что?Владимир (подавленно). Для одного человека это слишком. (Пауза. Решительно.) А с другой стороны, вроде кажется, сейчас-то чего расстраиваться попусту. Раньше надо было решать, на целую вечность раньше, еще в 1900 году.Эстрагон. Ладно, хватит. Помоги мне лучше снять эту дрянь.Владимир. Мы с тобой взялись бы за руки и чуть не первыми бросились бы с Эйфелевой башни. Тогда мы выглядели вполне прилично. А сейчас уже поздно - нас и подняться-то на нее не пустят.";
+var liricTextLength = liricText.length;
+var liricTextTimer = 20;
 
 function init() {
     canvas = document.getElementById("pomidoroCanvas");
@@ -16,13 +21,13 @@ function init() {
     canvas.width  = w; // Ширина игрового поля
     canvas.height = h; // Высота игрового поля
 
-    // canvas.style.marginTop = "-"+h/2+"px";
-    // canvas.style.marginLeft = "-"+w/2+"px";
+    maxCountPomidoro = w/40;
 
-    maxCountPomidoro = w/6;
+    for (var i = 0; i < maxCountPomidoro; i++) {
+        branchMass.push(false);
+    };
 
     ctx = canvas.getContext("2d"); // Берём контекст
-
     imageLoad();
 
 }
@@ -36,14 +41,15 @@ function randomFunction( min, max ) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function pomidorObj(x, y, speed, opacity, text) {
-    this. live = true;
+function pomidorObj(x, y, speed, opacity, text, numberLine) {
+    this.live = true;
     this.x = x;
     this.y = y;
     this.speed = speed;
 
     this.opacity = opacity || 1;
     this.text = text || null;
+    this.numberLine = numberLine;
 }
 
 var timerCanvas = function() {
@@ -62,27 +68,53 @@ function clearCanvas(){
 }
 
 function addPomidoro() {
-    if ( massObj.length < maxCountPomidoro*6 ) {
-        var x = randomFunction(-10, w);
-        var y = randomFunction(-10, -25);
-        var speed = randomFunction(3, 5);
-        massObj.push(new pomidorObj(x, y, speed));
+    for (var i = 0; i < branchMass.length; i++) {
+        if ( !branchMass[i] ) {
+            branchMass[i] = true;
+            var x = i * 43;
+            var numberLine = i;
+            var y = randomFunction(-10, -25);
+            var speed = randomFunction(3, 5);
+            massObj.push(new pomidorObj(x, y, speed));
 
-        massObj.push(new pomidorObj(x, y-30, speed, 1, matrixText[randomFunction(0, matrixText.length)] ));
-        massObj.push(new pomidorObj(x, y-60, speed, .8, matrixText[randomFunction(0, matrixText.length)] ));
-        massObj.push(new pomidorObj(x, y-90, speed, .6, matrixText[randomFunction(0, matrixText.length)] ));
-        massObj.push(new pomidorObj(x, y-120, speed, .4, matrixText[randomFunction(0, matrixText.length)] ));
-        massObj.push(new pomidorObj(x, y-150, speed, .2, matrixText[randomFunction(0, matrixText.length)] ));
-    }
+            massObj.push(new pomidorObj(x+5, y-10, speed, 1, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-60, speed, .9, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-110, speed, .8, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-160, speed, .7, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-210, speed, .6, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-260, speed, .5, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-310, speed, .4, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-360, speed, .3, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-410, speed, .2, liricText.slice(liricTextTimer, liricTextTimer+1) ));
+            liricTextTimer++;
+            massObj.push(new pomidorObj(x+5, y-460, speed, .1, liricText.slice(liricTextTimer, liricTextTimer+1), numberLine ));
+            liricTextTimer++;
+
+            if ( liricTextTimer >= liricTextLength ) liricTextTimer = 0;
+        }
+    };
 }
 
 function updatePomidoro() {
 
-    for (var i = 0; i < massObj.length - 1; i++) {
-        if ( !massObj[i].live ) massObj.splice(i, 1);
+    for (var i = 0; i < massObj.length; i++) {
+        if ( !massObj[i].live ) {
+            if ( massObj[i].numberLine >= 0 ) {
+                branchMass[massObj[i].numberLine] = false;
+            }
+            massObj.splice(i, 1);
+        }
     };
 
-    for (var i = 0; i < massObj.length - 1; i++) {
+    for (var i = 0; i < massObj.length; i++) {
         if ( massObj[i].live ) massObj[i].draw();
     };
 }
@@ -114,6 +146,19 @@ pomidorObj.prototype.draw = function() {
         this.live = false;
     }
 }
+
+window.onresize = function() {
+    branchMass.length = 0;
+    massObj.length = 0;
+    w = window.innerWidth;
+    h = window.innerHeight;
+    maxCountPomidoro = w/40;
+    for (var i = 0; i < maxCountPomidoro; i++) {
+        branchMass.push(false);
+    }
+
+}
+
 
 window.onload = function(){
     init();

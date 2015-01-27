@@ -182,7 +182,6 @@ app.controller('appController', function ($scope, $http) {
 	}, 1000*60);
 
 	$scope.startPomidoroCanvas = function() {
-		console.log(pomidoroCanvas);
 		pomidoroCanvas=!pomidoroCanvas;
 		$scope.pomidoroCanvasAng=!$scope.pomidoroCanvasAng;
 		update();
@@ -191,6 +190,7 @@ app.controller('appController', function ($scope, $http) {
 	$scope.selectBg = function(number) {
 		$scope.activeDiv = number;
 		$scope.randomChecked = false;
+		$scope.hideMenu = false;
 	}
 
 });
