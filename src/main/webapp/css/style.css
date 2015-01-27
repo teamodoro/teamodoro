@@ -479,3 +479,16 @@ input[type="checkbox"], label {
 	.statistic-list > li:nth-child(even) {
 		background: rgba(255, 255, 255, .1);
 	}
+
+input[type="text"] {
+	border-radius: 3px;
+	width: 70px;
+	padding: 5px;
+	border: 1px solid #fff;
+	-webkit-transition: 0.3s all;
+	-o-transition: 0.3s all;
+	transition: 0.3s all;
+}
+input[type="text"]:focus {
+	box-shadow: 0 0 30px #B000BA;
+}

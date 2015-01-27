@@ -24,6 +24,11 @@ menuApp.controller('menuController', function ($scope, $http) {
       if ( $scope.selection == data ) return true;
     }
 
+    $scope.chinaPomidorOn = function() {
+    	trueMatrix=!trueMatrix;
+    }
+
+
 });
 
 
