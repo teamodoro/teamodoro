@@ -67,6 +67,7 @@ button {
 body, html {
 	min-height: 100%;
 	height: 100%;
+	overflow: hidden;
 }
 .content {
 	width: 100%;
@@ -318,20 +319,132 @@ input[type="checkbox"], label {
 
 .uporot_div {
 	position: absolute;
-	right: 300px;
-	top: 0;
+	left: 300px;
+	bottom: 0;
 	height: 250px;
 	width: 250px;
 	z-index: 100;
 }
 	.uporot_div > img {
 		position: absolute;
-		bottom: 250px;
+		top: 250px;
 		left: 0;
 		-webkit-transition: 0.5s all;
 		-o-transition: 0.5s all;
 		transition: 0.5s all;
 	}
 	.uporot_div:hover > img {
-		bottom: 0;
+		top: 0;
 	}
+
+/* MENU */
+.menu {
+	width: 1000px;
+	top: 0;
+	bottom: calc(100% - 40px);
+	left: 50%;
+	margin-left: -500px;
+	position: absolute;
+	z-index: 50;
+	overflow: auto;
+	-webkit-transition: 0.3s bottom;
+	-o-transition: 0.3s bottom;
+	transition: 0.3s bottom;
+}
+	.menu > .menu-content {
+		height: 0;
+		max-height: 0;
+		padding: 0;
+		overflow: hidden;
+		-webkit-transition: 0.5s height;
+		-o-transition: 0.5s height;
+		transition: 0.5s height;
+	}
+
+.menu.active {
+	bottom: 0;
+	background: rgba(0, 0, 0, .9);
+}
+	.menu.active > .menu-content {
+		height: auto;
+		max-height: initial;
+		padding: 30px;
+	}
+
+.select-bg {
+	display: block;
+	width: 100%;
+	height: 300px;
+	background-position: right center;
+	background-repeat: no-repeat;
+	/*background-size: 100% auto;*/
+	border: 1px solid #B000BA;
+	margin-bottom: 30px;
+	text-decoration: none;
+
+	-webkit-transition: 0.2s all;
+	-o-transition: 0.2s all;
+	transition: 0.2s all;
+}
+	.select-content {
+		height: 298px;
+		width: 100%;
+		color: #fff;
+		font-size: 60px;
+		padding: 40px;
+		text-decoration: none;
+		background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(125,185,232,0) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(100%,rgba(125,185,232,0))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(125,185,232,0) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(125,185,232,0) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(125,185,232,0) 100%); /* IE10+ */
+		background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(125,185,232,0) 100%); /* W3C */
+	}
+	.select-bg:hover {
+		box-shadow: 0 0 30px #B000BA;
+	}
+
+
+	.menu.active .menu-link {
+		display: none;
+	}
+
+	.menu-link {
+		display: block;
+		width: 100%;
+		line-height: 40px;
+		font-size: 15px;
+		color: #fff;
+		background: rgba(0,0,0,.3);
+		text-align: center;
+		text-decoration: none;
+		opacity: 0;
+		font-weight: bold;
+		-webkit-transition: 0.4s all;
+		-o-transition: 0.4s all;
+		transition: 0.4s all;
+	}
+		.menu-link:hover {
+			opacity: 1;
+			color: #fff;
+		}
+
+.menu-menu {
+	display: block;
+	margin-bottom: 30px;
+}
+	.menu-menu > li {
+		display: inline-block;
+	}
+		.menu-menu > li > a {
+			padding: 12px 15px;
+			color: #fff;
+			display: inline-block;
+			background: rgba(176, 0, 186, .5);
+			-webkit-transition: 0.4s all;
+			-o-transition: 0.4s all;
+			transition: 0.4s all;
+		}
+			.menu-menu > li > a:hover {
+				background: rgba(176, 0, 186, 1);
+			}

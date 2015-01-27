@@ -188,6 +188,11 @@ app.controller('appController', function ($scope, $http) {
 		update();
 	}
 
+	$scope.selectBg = function(number) {
+		$scope.activeDiv = number;
+		$scope.randomChecked = false;
+	}
+
 });
 
 
