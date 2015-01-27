@@ -341,15 +341,15 @@ input[type="checkbox"], label {
 .menu {
 	width: 1000px;
 	top: 0;
-	height: 40px;
+	bottom: calc(100% - 40px);
 	left: 50%;
 	margin-left: -500px;
 	position: absolute;
 	z-index: 50;
 	overflow: auto;
-	-webkit-transition: 0.3s height;
-	-o-transition: 0.3s height;
-	transition: 0.3s height;
+	-webkit-transition: 0.3s all;
+	-o-transition: 0.3s all;
+	transition: 0.3s all;
 }
 	.menu > .menu-content {
 		height: 0;
@@ -362,8 +362,9 @@ input[type="checkbox"], label {
 	}
 
 .menu.active {
-	height: 800px;
-	background: rgba(0, 0, 0, .9);
+	bottom: 0;
+	background: rgba(10, 10, 10, 1);
+	box-shadow: 0 0 25px rgba(0,0,0,.9);
 }
 	.menu.active > .menu-content {
 		height: auto;
@@ -375,20 +376,28 @@ input[type="checkbox"], label {
 	display: block;
 	width: 100%;
 	height: 300px;
-	background-position: right center;
-	background-repeat: no-repeat;
-	/*background-size: 100% auto;*/
+	position: relative;
 	border: 1px solid #B000BA;
 	margin-bottom: 30px;
 	text-decoration: none;
+	overflow: hidden;
 
 	-webkit-transition: 0.2s all;
 	-o-transition: 0.2s all;
 	transition: 0.2s all;
 }
-	.select-content {
-		height: 298px;
+	.select-bg > img {
 		width: 100%;
+		position: relative;
+		z-index: 1;
+	}
+	.select-content {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		z-index: 2;
 		color: #fff;
 		font-size: 60px;
 		padding: 40px;

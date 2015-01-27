@@ -13,7 +13,8 @@
 		</ul>
 		<div ng-switch on="selection">
 			<div ng-switch-when="back">
-				<a href="#" ng-repeat="i in countBg" ng-click="selectBg(i);closedMenu();" class="select-bg" style="background-image: url(../img/bg{{i + 1}}.jpg);">
+				<a href="#" ng-repeat="i in countBg" ng-click="selectBg(i);closedMenu();" class="select-bg">
+					<img src="img/bg{{i + 1}}.jpg" alt="">
 					<div class="select-content">
 						Фон {{i + 1}}
 					</div>
@@ -21,7 +22,7 @@
 			</div>
 			<div ng-switch-when="stat">
 				<ul class="statistic-list">
-					<li>Осталось до конца помидорки: {{nextLongBreak}}</li>
+					<li>Осталось до лонгбрейка: {{nextLongBreak}} помидорин</li>
 					<li>Ваш ник: Барбара Стрейзенд</li>
 					<li>Выполненных помидорок: 6</li>
 					<li>

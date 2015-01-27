@@ -183,17 +183,18 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 		if ( $scope.randomChecked ) $scope.randomBg();
 	}, 1000*60);
 
+
+	// Запуск наркоманского канваса
 	$scope.startPomidoroCanvas = function() {
-		console.log(pomidoroCanvas);
 		pomidoroCanvas=!pomidoroCanvas;
 		$scope.pomidoroCanvasAng=!$scope.pomidoroCanvasAng;
 		update();
 	}
 
+	// Смена бэкграунда
 	$scope.selectBg = function(number) {
 		$scope.activeDiv = number;
 		$scope.randomChecked = false;
-		$scope.hideMenu = false;
 	}
 
 });
