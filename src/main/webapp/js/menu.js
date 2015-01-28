@@ -6,7 +6,6 @@ var menuApp = angular.module('menuApp', []);
 
 menuApp.controller('menuController', function ($scope, $http) {
 
-	$scope.hideMenu = false; // Скрытие/раскрытие меню
 	$scope.selection = 'stat'; // Первая открытая вкладка
 
 	// Скрытие меню

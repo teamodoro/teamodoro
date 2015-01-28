@@ -1,45 +1,68 @@
-<nav ng-controller="menuController" class="menu" ng-class="{'active' : hideMenu}">
-	<aside class="menu-content">
-		<ul class="menu-menu" ng-model="selection">
-			<li ng-class="{'active' : activeSelection('back')}">
-				<a href="#" ng-click="editSelection('back');">Выбор фона</a>
-			</li>
-			<li ng-class="{'active' : activeSelection('stat')}">
-				<a href="#" ng-click="editSelection('stat');">Статистика / Настройки</a>
-			</li>
-			<li>
-				<a href="#" ng-click="closedMenu();">Закрыть</a>
-			</li>
-		</ul>
-		<div ng-switch on="selection">
-			<div ng-switch-when="back">
-				<a href="#" ng-repeat="i in countBg" ng-click="selectBg(i);closedMenu();" class="select-bg">
-					<img src="img/bg{{i + 1}}.jpg" alt="">
-					<div class="select-content">
-						Фон {{i + 1}}
-					</div>
-				</a>
-			</div>
-			<div ng-switch-when="stat">
-				<ul class="statistic-list">
-					<li>Осталось до лонгбрейка: {{nextLongBreak}} помидорин</li>
-					<li>Ваш ник: Барбара Стрейзенд</li>
-					<li>Выполненных помидорок: 6</li>
-					<li>
-						<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">
-						<label for="randomBg">
-							Рандомный фон
-						</label>
-					</li>
-					<li>
-						<input type="checkbox" id="chinaPomidor" ng-click="chinaPomidorOn();">
-						<label for="chinaPomidor">
-							Китайские помидорки
-						</label>
-					</li>
-				</ul>
-			</div>
+<nav ng-controller="menuController" id="menu" class="menu">
+	<ul class="menu-menu" ng-model="selection">
+		<li ng-class="{'active' : activeSelection('back')}">
+			<a href="#" ng-click="editSelection('back');">Выбор фона</a>
+		</li>
+		<li ng-class="{'active' : activeSelection('stat')}">
+			<a href="#" ng-click="editSelection('stat');">Статистика / Настройки</a>
+		</li>
+		<!-- <li>
+			<a href="#" ng-click="closedMenu();">Закрыть</a>
+		</li> -->
+	</ul>
+	<div class="menu-content" ng-switch on="selection">
+		<div ng-switch-when="back">
+			<a href="#" ng-repeat="i in countBg" ng-click="selectBg(i);closedMenu();" class="select-bg">
+				<img src="img/bg{{i + 1}}.jpg" alt="">
+				<!-- <div class="select-content"></div> -->
+			</a>
 		</div>
-	</aside>
-	<a href="#" ng-click="hideMenu=!hideMenu" class="menu-link">Показать меню</a>
+		<div ng-switch-when="stat">
+			<ul class="statistic-list">
+				<a href="#" class="select-bg big">
+					<table>
+						<tr>
+							<td>Осталось помидорин до лонгбрейка</td>
+						</tr>
+						<tr>
+							<td>{{nextLongBreak}}</td>
+						</tr>
+					</table>
+				</a>
+				<a href="#" class="select-bg big">
+					<table>
+						<tr>
+							<td>Ваш ник</td>
+						</tr>
+						<tr>
+							<td>Барбара Стрейзенд</td>
+						</tr>
+					</table>
+				</a>
+				<a href="#" class="select-bg big">
+					<table>
+						<tr>
+							<td>Выполненных помидорок</td>
+						</tr>
+						<tr>
+							<td>6</td>
+						</tr>
+					</table>
+				</a>
+				<li>
+					<input type="checkbox" id="randomBg" ng-model="randomChecked" checked="checked">
+					<label for="randomBg">
+						Рандомный фон
+					</label>
+				</li>
+				<li>
+					<input type="checkbox" id="chinaPomidor" ng-click="chinaPomidorOn();">
+					<label for="chinaPomidor">
+						Китайские помидорки
+					</label>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<a href="#" class="menu-link">Показать меню</a>
 </nav>
