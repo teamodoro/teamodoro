@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-var app = angular.module('myApp', ['menuApp']);
+var app = angular.module('myApp', []);
 
 
 app.controller('appController', function ($scope, $rootScope, $http) {
@@ -18,7 +18,8 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 	$scope.randomChecked = true; // Рандомные фоны
 	$scope.modalPerson = false; // переменная для модального окна
 	$scope.pomidoroCanvasAng = false; // 
-	$scope.nextLongBreak = 0; // До большого периода
+	$scope.nextLongBreak = 5; // До большого периода
+	$scope.menuHidden = false;
 
 	$scope.sessionItems = [];
 
@@ -28,7 +29,6 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 	$scope.startGet = function() {
 		$http.get('/api/current').
 			success(function(data, status, headers, config) {
-				console.log("Success Timer");
 				$scope.refreshConts(data);
 				// Если таймер выключен то врубаем его
 				if ( !$scope.timerIntervalBOOL ) $scope.timerIntervalBOOL = true;
@@ -41,7 +41,6 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 
 		$http.get('/api/current/participants').
 			success(function(data, status, headers, config) {
-				console.log("Success Session");
 				$scope.countPersonPomidoro = data.length;
 				// data.map(function(person) {
 				// 	if (person.name == null) {
@@ -195,6 +194,40 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 	$scope.selectBg = function(number) {
 		$scope.activeDiv = number;
 		$scope.randomChecked = false;
+	}
+
+
+	// MENU
+	$scope.selection = 'login'; // Первая открытая вкладка
+	$scope.trueMatrix = false;
+
+	// Скрытие меню
+	$scope.closedMenu = function(number) {
+		$scope.hideMenu = false;
+	}
+
+	// Открывается новая вкладка
+	$scope.editSelection = function (data) {
+	  $scope.selection = data;
+	}
+
+	// Выбирается активный пункт меню
+	$scope.activeSelection = function (data) {
+	  if ( $scope.selection == data ) return true;
+	}
+
+	$scope.chinaPomidorOn = function() {
+		trueMatrix=!trueMatrix;
+	  $scope.trueMatrix=!$scope.trueMatrix;
+	}
+
+	// При репите преобразует число в массив
+	$scope.getNumber = function(num) {
+	    return new Array(num);   
+	}
+
+	$scope.closedmenu = function() {
+		$scope.menuHidden=!$scope.menuHidden;
 	}
 
 });
