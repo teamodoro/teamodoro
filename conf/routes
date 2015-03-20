@@ -1,0 +1,14 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# API
+
+GET     /api/current                 controllers.Api.current
+GET     /api/current/participants    controllers.Api.participants
+
+
+# Static
+
+GET /                        controllers.Assets.at(path="/public", file="index.html")
+GET /*file                   controllers.Assets.at(path="/public", file)

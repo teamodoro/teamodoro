@@ -1,6 +1,6 @@
-package org.whatever.teamodoro.models
+package models
 
-import org.json4s.{FieldSerializer, DefaultFormats, Formats}
+import models.GreenhouseState.GreenhouseState
 
 import scala.concurrent.duration._
 
@@ -8,39 +8,30 @@ import scala.concurrent.duration._
  * Created by nsa, 19/01/15 
  */
 
-object State extends Enumeration {
-  type State = Value
-  val Paused = Value("paused")
-  val Running = Value("running")
-  val ShortBreak = Value("shortBreak")
-  val LongBreak = Value("longBreak")
-}
-
-import org.whatever.teamodoro.models.State._
-
-object GreenhouseSerializer {
-  val serializer = FieldSerializer[Greenhouse](
-    FieldSerializer.ignore("participants") orElse FieldSerializer.ignore("startTime")
-  )
-}
-
 object Greenhouse {
-  def withName(name: String): Greenhouse =
-    Greenhouse(
-      name,
-      Options.default,
-      State.Running,
-      List(),
-      4,
-      System.currentTimeMillis(),
-      0
-    )
-}
 
+  import play.api.libs.json._
+
+  implicit object GreenhouseWrites extends Writes[Greenhouse] {
+    def writes(p: Greenhouse) = Json.obj(
+      "name" -> Json.toJson(p.name),
+      "state" -> Json.toJson(p.state),
+      "options" -> Json.toJson(p.options),
+      "timesBeforeLongBreak" -> Json.toJson(p.timesBeforeLongBreak),
+      "startTime" -> Json.toJson(p.startTime),
+      "participants" -> Json.toJson(p.participants),
+      "currentTime" -> Json.toJson(p.currentTime)
+    )
+  }
+
+  def withName(name: String): Greenhouse = {
+    Greenhouse(name, Options.default, GreenhouseState.Running, List(), 4, System.currentTimeMillis(), 0)
+  }
+}
 
 case class Greenhouse(name: String,
                       options: Options,
-                      state: State,
+                      state: GreenhouseState,
                       participants: List[Participant],
                       timesBeforeLongBreak: Int,
                       startTime: Long,
@@ -50,7 +41,7 @@ case class Greenhouse(name: String,
 
   def tick(): Greenhouse = {
     this.state match {
-      case State.Paused => this
+      case GreenhouseState.Paused => this
       case _ => this.catchUp.kickIdleParticipants
     }
   }
@@ -65,7 +56,7 @@ case class Greenhouse(name: String,
     val overdue = updated.currentTime - stopAt
 
     val tillLongBreak = updated.state match {
-      case State.Running => updated.timesBeforeLongBreak - 1
+      case GreenhouseState.Running => updated.timesBeforeLongBreak - 1
       case _ if updated.timesBeforeLongBreak <= 0 => updated.options.longBreakEvery
       case _ => updated.timesBeforeLongBreak
     }
@@ -84,19 +75,19 @@ case class Greenhouse(name: String,
   }
 
   def stopAt: Long = this.state match {
-    case State.Running => this.options.running.duration
-    case State.ShortBreak => this.options.shortBreak.duration
-    case State.LongBreak => this.options.longBreak.duration
+    case GreenhouseState.Running => this.options.running.duration
+    case GreenhouseState.ShortBreak => this.options.shortBreak.duration
+    case GreenhouseState.LongBreak => this.options.longBreak.duration
     case _ => Long.MaxValue
   }
 
-  def nextState(): State = this.state match {
-    case State.Running if timesBeforeLongBreak <= 1 => State.LongBreak
-    case State.Running => State.ShortBreak
-    case State.ShortBreak => State.Running
-    case State.Paused => State.Running
-    case State.LongBreak => State.Running
-    case _ => State.Paused
+  def nextState(): GreenhouseState = this.state match {
+    case GreenhouseState.Running if timesBeforeLongBreak <= 1 => GreenhouseState.LongBreak
+    case GreenhouseState.Running => GreenhouseState.ShortBreak
+    case GreenhouseState.ShortBreak => GreenhouseState.Running
+    case GreenhouseState.Paused => GreenhouseState.Running
+    case GreenhouseState.LongBreak => GreenhouseState.Running
+    case _ => GreenhouseState.Paused
   }
 
   def updateCurrentTime(): Greenhouse = this.copy(
@@ -104,7 +95,7 @@ case class Greenhouse(name: String,
   )
 
   def start(): Greenhouse = this.copy(
-    state = State.Running,
+    state = GreenhouseState.Running,
     startTime = System.currentTimeMillis()
   )
 
