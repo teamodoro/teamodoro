@@ -23,7 +23,10 @@ object Participant {
 }
 
 case class Participant(name: Option[String], session: String, lastAccess: Long) {
+
   def isAnonymous: Boolean = name.isEmpty
+
   def markAlive: Participant = this.copy(lastAccess = System.currentTimeMillis())
+
   def fromLastAccess: Long = System.currentTimeMillis() - lastAccess
 }

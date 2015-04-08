@@ -1,0 +1,8 @@
+teamodoro:
+    build: .
+    ports:
+        - 0.0.0.0:9000:9000
+    expose:
+        - "9000"
+    command:
+        bash

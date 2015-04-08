@@ -1,6 +1,6 @@
-name := """play-scala"""
+name := """teamodoro"""
 
-version := "1.0-SNAPSHOT"
+version := "0.2-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 

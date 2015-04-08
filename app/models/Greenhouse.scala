@@ -1,7 +1,6 @@
 package models
 
 import models.GreenhouseState.GreenhouseState
-
 import scala.concurrent.duration._
 
 /**
@@ -115,8 +114,9 @@ case class Greenhouse(name: String,
   )
 
   def kickIdleParticipants: Greenhouse = this.copy(
-    participants = participants.filter(p => (p.fromLastAccess millis).toSeconds < options.aliveTimeout)
+    participants = participants.filter(p => 
+        (p.fromLastAccess millis).toSeconds < options.aliveTimeout
+    )
   )
 }
-
 

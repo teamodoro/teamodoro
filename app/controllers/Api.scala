@@ -1,7 +1,6 @@
 package controllers
 
 import java.util.UUID
-
 import models.Participant
 import play.api.libs.json.Json
 import play.api.mvc._

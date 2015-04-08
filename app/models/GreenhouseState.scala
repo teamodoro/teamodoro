@@ -7,6 +7,7 @@ import play.api.libs.json._
  */
 
 object GreenhouseState extends Enumeration {
+
   type GreenhouseState = Value
   val Paused = Value("paused")
   val Running = Value("running")
@@ -14,9 +15,7 @@ object GreenhouseState extends Enumeration {
   val LongBreak = Value("longBreak")
 
   implicit object writes extends Writes[GreenhouseState] {
-    def writes(p: GreenhouseState) = Json.obj(
-      "name" -> Json.toJson(p.toString)
-    )
+    def writes(p: GreenhouseState) = Json.obj("name" -> Json.toJson(p.toString))
   }
 }
 

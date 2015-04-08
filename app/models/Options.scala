@@ -1,7 +1,6 @@
 package models
 
 import play.api.libs.json._
-
 import scala.concurrent.duration._
 
 /**
@@ -9,7 +8,7 @@ import scala.concurrent.duration._
  */
 
 
-object DurationOptions  {
+object DurationOptions {
 
   implicit object writes extends Writes[DurationOptions] {
 
@@ -18,6 +17,7 @@ object DurationOptions  {
       "color" -> Json.toJson(p.color)
     )
   }
+
 }
 
 case class DurationOptions(duration: Long, color: String)
