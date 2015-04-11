@@ -13,3 +13,5 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.8.1",
   ws
 )
+
+scalacOptions += "-feature"

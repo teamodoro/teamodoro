@@ -4,5 +4,7 @@ teamodoro:
         - 0.0.0.0:9000:9000
     expose:
         - "9000"
+    environment:
+        - TEAMODORO_DB_URL=jdbc:h2:/data/teamodoro.db
     command:
         bash

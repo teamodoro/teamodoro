@@ -35,9 +35,9 @@ object Options {
   }
 
   def default = Options(
-    DurationOptions((25 minutes).toSeconds, "white"),
-    DurationOptions((5 minutes).toSeconds, "green"),
-    DurationOptions((15 minutes).toSeconds, "yellow"),
+    DurationOptions(25.minutes.toSeconds, "white"),
+    DurationOptions(5.minutes.toSeconds, "green"),
+    DurationOptions(15.minutes.toSeconds, "yellow"),
     4
   )
 }

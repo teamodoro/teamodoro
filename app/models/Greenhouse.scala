@@ -63,7 +63,7 @@ case class Greenhouse(name: String,
     val next = updated.copy(
       state = nextState(),
       timesBeforeLongBreak = tillLongBreak,
-      startTime = System.currentTimeMillis() - (overdue seconds).toMillis,
+      startTime = System.currentTimeMillis() - overdue.seconds.toMillis,
       currentTime = overdue
     )
 
@@ -90,7 +90,7 @@ case class Greenhouse(name: String,
   }
 
   def updateCurrentTime(): Greenhouse = this.copy(
-    currentTime = ((System.currentTimeMillis() - startTime) milliseconds) toSeconds
+    currentTime = (System.currentTimeMillis() - startTime).milliseconds.toSeconds
   )
 
   def start(): Greenhouse = this.copy(
@@ -115,7 +115,7 @@ case class Greenhouse(name: String,
 
   def kickIdleParticipants: Greenhouse = this.copy(
     participants = participants.filter(p => 
-        (p.fromLastAccess millis).toSeconds < options.aliveTimeout
+        p.fromLastAccess.millis.toSeconds < options.aliveTimeout
     )
   )
 }
