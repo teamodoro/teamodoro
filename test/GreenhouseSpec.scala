@@ -35,7 +35,7 @@ class GreenhouseSpec extends Specification {
     }
 
     "handle new participants" in {
-      val withVasya = greenhouse.addParticipant(Participant.withNameAndSession(Some("Вася"), "session"))
+      val withVasya = greenhouse.addUser(User.withNameAndSession(Some("Вася"), "session"))
 
       withVasya.participants should have size 1
       withVasya.participants.head.name should beEqualTo(Some("Вася"))
@@ -43,11 +43,11 @@ class GreenhouseSpec extends Specification {
 
     "not allow to add user twice" in {
       val gh = List(
-        Participant.withSession("1"),
-        Participant.withSession("2"),
-        Participant.withSession("1")
+        User.withSession("1"),
+        User.withSession("2"),
+        User.withSession("1")
       ).foldLeft(Greenhouse.withName("uniq-participants")) {
-        (g, p) => g.addParticipant(p)
+        (g, p) => g.addUser(p)
       }
 
       gh.participants should have size 2
@@ -56,13 +56,13 @@ class GreenhouseSpec extends Specification {
     "kick out inactive users" in {
 
       val participants = List(
-        Participant.withSession("1").copy(lastAccess = 0),
-        Participant.withSession("2").copy(lastAccess = 1),
-        Participant.withSession("3").copy(lastAccess = 2)
+        User.withSession("1").copy(lastAccess = 0),
+        User.withSession("2").copy(lastAccess = 1),
+        User.withSession("3").copy(lastAccess = 2)
       )
 
       val gh = participants.foldLeft(Greenhouse.withName("kicking-greenhouse")) {
-        (g, p) => g.addParticipant(p)
+        (g, p) => g.addUser(p)
       }
 
       val updatedLastAccess = gh.markAliveSession("1").participants.find(_.session == "1") match {
@@ -70,7 +70,7 @@ class GreenhouseSpec extends Specification {
         case _ => 0
       }
       (updatedLastAccess > 0) should beEqualTo(true)
-      gh.markAliveSession("1").kickIdleParticipants.participants should have size 1
+      gh.markAliveSession("1").kickIdleUsers.participants should have size 1
     }
 
     "handle 'outdated' state" in {

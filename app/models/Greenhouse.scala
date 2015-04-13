@@ -31,7 +31,7 @@ object Greenhouse {
 case class Greenhouse(name: String,
                       options: Options,
                       state: GreenhouseState,
-                      participants: List[Participant],
+                      participants: List[User],
                       timesBeforeLongBreak: Int,
                       startTime: Long,
                       currentTime: Long) {
@@ -41,7 +41,7 @@ case class Greenhouse(name: String,
   def tick(): Greenhouse = {
     this.state match {
       case GreenhouseState.Paused => this
-      case _ => this.catchUp.kickIdleParticipants
+      case _ => this.catchUp.kickIdleUsers
     }
   }
 
@@ -98,7 +98,7 @@ case class Greenhouse(name: String,
     startTime = System.currentTimeMillis()
   )
 
-  def addParticipant(participant: Participant): Greenhouse = {
+  def addUser(participant: User): Greenhouse = {
     participants.find(_.session == participant.session) match {
       case Some(_) => this
       case None => this.copy(
@@ -113,7 +113,7 @@ case class Greenhouse(name: String,
     }
   )
 
-  def kickIdleParticipants: Greenhouse = this.copy(
+  def kickIdleUsers: Greenhouse = this.copy(
     participants = participants.filter(p => 
         p.fromLastAccess.millis.toSeconds < options.aliveTimeout
     )
