@@ -7,7 +7,6 @@ import play.api.libs.json._
  */
 
 object GreenhouseState extends Enumeration {
-
   type GreenhouseState = Value
   val Paused = Value("paused")
   val Running = Value("running")

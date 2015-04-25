@@ -7,7 +7,6 @@ import scala.concurrent.duration._
  * Created by nsa, 19/01/15 
  */
 
-
 object DurationOptions {
 
   implicit object writes extends Writes[DurationOptions] {
@@ -17,7 +16,6 @@ object DurationOptions {
       "color" -> Json.toJson(p.color)
     )
   }
-
 }
 
 case class DurationOptions(duration: Long, color: String)

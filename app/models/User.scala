@@ -14,7 +14,6 @@ import java.sql.Timestamp
  */
 
 object User {
-
   implicit object UserWrites extends Writes[User] {
     def writes(p: User) = Json.obj(
       "name" -> Json.toJson(p.name),

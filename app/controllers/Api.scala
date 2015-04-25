@@ -1,9 +1,11 @@
 package controllers
 
 import java.util.UUID
+
 import models.User
 import play.api.libs.json.Json
-import play.api.mvc._
+import play.api.mvc.Action
+import play.api.mvc.Controller
 import shared.Shared
 
 object Api extends Controller {
@@ -18,18 +20,18 @@ object Api extends Controller {
   }
 
   def current() = Action { request =>
-
     val sessionName = "teamodoro-session"
-    val sessionId = request.session.get(
-      sessionName
-    ).getOrElse(
-      UUID.randomUUID.toString
-    )
-
+    val sessionId = request.session
+      .get(sessionName)
+      .getOrElse(UUID.randomUUID.toString)
+    
     val hash = sessionHash(sessionId)
 
-    Shared.replaceGreenhouse(Shared.greenhouse.addUser(User.withSession(hash)))
-    Shared.replaceGreenhouse(Shared.greenhouse.markAliveSession(sessionHash(sessionId)).tick())
-    Ok(Json.toJson(Shared.greenhouse)).withSession(sessionName -> sessionId)
+    Shared.replaceGreenhouse(
+      Shared.greenhouse.addUser(User.withSession(hash)))
+    Shared.replaceGreenhouse(
+      Shared.greenhouse.markAliveSession(sessionHash(sessionId)).tick())
+    Ok(Json.toJson(Shared.greenhouse))
+      .withSession(sessionName -> sessionId)
   }
 }
