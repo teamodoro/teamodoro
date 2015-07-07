@@ -1,11 +1,39 @@
 'use strict';
 
+// Notification Send
+var sendNotification = function (title, options) {
+  // Проверим, поддерживает ли браузер HTML5 Notifications
+  if (!("Notification" in window)) {
+    alert('Ваш браузер не поддерживает HTML Notifications, его необходимо обновить.');
+  } else if (Notification.permission === "granted") {
+    // Если права есть, отправим уведомление
+    var notification = new Notification(title, options);
+
+    function clickFunc() { alert('Пользователь кликнул на уведомление'); }
+
+    notification.onclick = clickFunc;
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // Если права успешно получены, отправляем уведомление
+      if (permission === "granted") {
+        var notification = new Notification(title, options);
+      } else {
+        alert('Вы запретили показывать уведомления'); // Юзер отклонил наш запрос на показ уведомлений
+      }
+    });
+  } else {
+  // Пользователь ранее отклонил наш запрос на показ уведомлений
+  // В этом месте мы можем, но не будем его беспокоить. Уважайте решения своих пользователей.
+  }
+}
+
+
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', []);
 
-
 app.controller('appController', function ($scope, $rootScope, $http) {
 
+	var notificationVis = false;
 	$scope.countPersonPomidoro = 0; // Кол-во людей сидящих на помидорах
 	$scope.periodName = ""; // Имя периода
 	$scope.periodNameOld = "";
@@ -17,7 +45,7 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 	$scope.timerIntervalBOOL = false; // Проверка нужно ли работать таймеру
 	$scope.randomChecked = true; // Рандомные фоны
 	$scope.modalPerson = false; // переменная для модального окна
-	$scope.pomidoroCanvasAng = false; // 
+	$scope.pomidoroCanvasAng = false; //
 	$scope.nextLongBreak = 5; // До большого периода
 	$scope.menuHidden = false;
 
@@ -66,7 +94,7 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 
 
 	// Смена окончания слова
-	$scope.wordSplice = function() {		
+	$scope.wordSplice = function() {
 		var count = "" + $scope.countPersonPomidoro + "";
 
 		var aT = count.slice(count.length - 1, count.length);
@@ -105,11 +133,20 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 		if ( $scope.periodClass == 'white' ) statusColor = "242, 242, 242, ";
 		if ( $scope.periodClass == 'yellow' ) statusColor = "255, 228, 0, ";
 		if ( $scope.periodClass == 'green' ) statusColor = "58, 208, 38, ";
+
+		if ( notificationVis ) {
+			sendNotification('Change state', {
+				body: 'Start state ' + $scope.periodName,
+				icon: '../img/pomidor.png',
+				dir: 'auto'
+			});
+			notificationVis = false;
+		}
 	}
 
 	// Работа над временем
 	// Получаем минуты и секунды
-	// Если не хватает, то добавляем нолик вначале 
+	// Если не хватает, то добавляем нолик вначале
 	// Проверка на конец таймера, останавливаем и запускаем мелодию
 	$scope.nullTime = function() {
 		var time = new Date(1000 * $scope.fullTime);
@@ -130,13 +167,12 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 			console.log("End period");
 			$scope.startGet();
 			$scope.tomatos = true;
-			$scope.periodNameOld = $scope.periodName
-
+			$scope.periodNameOld = $scope.periodName;
+			notificationVis = true;
 			setTimeout(function(){
 				$scope.tomatos = false;
 			}, 1200);
 
-			
 		}
 	}
 
@@ -223,7 +259,7 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 
 	// При репите преобразует число в массив
 	$scope.getNumber = function(num) {
-	    return new Array(num);   
+	    return new Array(num);
 	}
 
 	$scope.closedmenu = function() {
@@ -231,5 +267,3 @@ app.controller('appController', function ($scope, $rootScope, $http) {
 	}
 
 });
-
-
