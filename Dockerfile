@@ -1,6 +1,9 @@
-FROM ubuntu:trusty
+FROM bellsoft/liberica-openjre-alpine
 
-RUN apt-get upgrade && sudo apt-get update && apt-get install --no-install-recommends -y openjdk-7-jre-headless
-ADD target/universal/stage /home
+RUN apk add --no-cache bash
+
+ADD target/universal/teamodoro-dist.tgz /home/
 
 EXPOSE 9000
+
+CMD /home/teamodoro-dist/bin/teamodoro

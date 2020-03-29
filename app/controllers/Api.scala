@@ -2,13 +2,14 @@ package controllers
 
 import java.util.UUID
 
+import javax.inject._
+import play.api.mvc._
 import models.User
 import play.api.libs.json.Json
-import play.api.mvc.Action
-import play.api.mvc.Controller
 import shared.Shared
 
-object Api extends Controller {
+@Singleton
+class Api @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
   def sessionHash(session: String): String = {
     val sha256 = java.security.MessageDigest.getInstance("SHA-256")

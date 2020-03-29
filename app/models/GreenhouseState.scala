@@ -17,4 +17,3 @@ object GreenhouseState extends Enumeration {
     def writes(p: GreenhouseState) = Json.obj("name" -> Json.toJson(p.toString))
   }
 }
-

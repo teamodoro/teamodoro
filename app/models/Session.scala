@@ -1,17 +1,25 @@
 package models
 
-import java.util.Date
-import java.sql.{ Date => SqlDate }
-import play.api.Play.current
-import play.api.db.slick.Config.driver.simple._
-import scala.slick.lifted.Tag
-import java.sql.Timestamp
+import javax.inject.Inject
+import play.api.db.slick._
+import slick.jdbc.JdbcProfile
+
+import scala.concurrent.ExecutionContext
 
 case class Session(id: Long, userId: Long, key: String)
 
-class Sessions(tag: Tag) extends Table[Session](tag, "SESSIONS") {
-  def id = column[Long]("id", O.PrimaryKey, O.NotNull, O.AutoInc)
-  def userId = column[Long]("user_id", O.NotNull)
-  def key = column[String]("key", O.NotNull)  
-  def * = (id, userId, key) <> (Session.tupled, Session.unapply _)
+class SessionDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
+
+  import profile.api._
+
+  class SessionTable(tag: Tag) extends Table[models.Session](tag, "SESSIONS") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+
+    def userId = column[Long]("user_id")
+
+    def key = column[String]("key")
+
+    def * = (id, userId, key) <> (Session.tupled, Session.unapply)
+  }
+
 }

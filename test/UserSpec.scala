@@ -1,5 +1,3 @@
-package org.whatever.teamodoro
-
 import models._
 import org.specs2.mutable.Specification
 
