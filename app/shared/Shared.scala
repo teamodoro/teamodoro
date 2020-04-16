@@ -1,8 +1,8 @@
+package shared
+
 /**
  * Created by nsa, 20/03/15 
  */
-
-package shared
 
 import models.Greenhouse
 

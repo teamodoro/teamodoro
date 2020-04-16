@@ -5,6 +5,7 @@
 
 import models._
 import org.specs2.mutable._
+import scala.concurrent.duration._
 
 class GreenhouseSpec extends Specification {
 
@@ -27,7 +28,7 @@ class GreenhouseSpec extends Specification {
     "be created properly" in {
       greenhouse.name must be("test")
       val duration = 25.minutes
-      greenhouse.options.running.duration must beEqualTo(duration.inSeconds)
+      greenhouse.options.running.duration must beEqualTo(duration.toSeconds)
       greenhouse.options.running.color must beEqualTo("white")
       greenhouse.state must be(GreenhouseState.Running)
       greenhouse.timesBeforeLongBreak must beEqualTo(4)
@@ -132,14 +133,14 @@ class GreenhouseSpec extends Specification {
         startTime = System.currentTimeMillis() -
           (greenhouse.options.running.duration * 1000) -
           (greenhouse.options.shortBreak.duration * 1000) +
-          (1.minute).inMillis
+          (1.minute).toMillis
       ).catchUp.state should beEqualTo(GreenhouseState.ShortBreak)
 
       /** Tomato + 10 mins => Running */
       gh.copy(
         startTime = System.currentTimeMillis() -
           (greenhouse.options.running.duration * 1000) -
-          (10.minutes).inMillis
+          (10.minutes).toMillis
       ).catchUp.state should beEqualTo(GreenhouseState.Running)
 
       /** Tomato + Tomato => Running */

@@ -1,13 +1,11 @@
 package models
 
+import javax.inject.Inject
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.api.libs.json._
+import slick.jdbc.JdbcProfile
 
-import java.util.Date
-import java.sql.{ Date => SqlDate }
-import play.api.Play.current
-import play.api.db.slick.Config.driver.simple._
-import scala.slick.lifted.Tag
-import java.sql.Timestamp
+import scala.concurrent.ExecutionContext
 
 /**
  * Created by nsa, 19/01/15 
@@ -34,12 +32,20 @@ case class User(id: Long, name: Option[String], session: String, lastAccess: Lon
   def fromLastAccess: Long = System.currentTimeMillis() - lastAccess
 }
 
-class Users(tag: Tag) extends Table[User](tag, "USERS") {
-  def id = column[Long]("id", O.PrimaryKey, O.AutoInc, O.NotNull)
-  def login = column[String]("login", O.NotNull)
-  def passwordHash = column[String]("password_hash", O.NotNull)
-  def lastAccessTime = column[Long]("last_access_time")
-  def * = (id, login.?, passwordHash, lastAccessTime) <> ((User.apply _).tupled, User.unapply _)
+class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
+
+  import profile.api._
+
+  class Users(tag: Tag) extends Table[User](tag, "USERS") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+
+    def login = column[String]("login")
+
+    def passwordHash = column[String]("password_hash")
+
+    def lastAccessTime = column[Long]("last_access_time")
+
+    def * = (id, login.?, passwordHash, lastAccessTime) <> ((User.apply _).tupled, User.unapply)
+  }
+
 }
-
-

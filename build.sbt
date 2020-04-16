@@ -1,17 +1,17 @@
-name := """teamodoro"""
+name := "teamodoro"
+organization := "teamodoro"
 
-version := "0.2-SNAPSHOT"
+version := "0.3-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.11.1"
+packageName in Universal := "teamodoro-dist"
 
-libraryDependencies ++= Seq(
-  jdbc,
-  anorm,
-  cache,
-  "com.typesafe.play" %% "play-slick" % "0.8.1",
-  ws
-)
+scalaVersion := "2.13.1"
 
-scalacOptions += "-feature"
+libraryDependencies += guice
+libraryDependencies += "com.typesafe.play" %% "play-slick" % "5.0.0"
+libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0"
+libraryDependencies += "com.h2database" % "h2" % "1.4.200"
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
+libraryDependencies += "org.specs2" %% "specs2-core" % "4.9.2" % Test
